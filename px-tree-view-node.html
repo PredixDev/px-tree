@@ -1,0 +1,71 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="px-tree-view-branch.html">
+<link rel="import" href="px-tree-view-leaf.html">
+
+<link rel="import" href="css/px-tree-view-styles.html">
+<link rel="import" href="../px-theme/px-theme-styles.html">
+
+<dom-module id="px-tree-view-node">
+  <template>
+    <style include="px-tree-view-styles"></style>
+    <style include="px-theme-styles"></style>
+
+    <ul class="tree-view-list">
+      <template is="dom-repeat" items='[[ items ]]'>
+        <li>
+          <template is="dom-if" if="[[ !item.items ]]">
+            <px-tree-view-leaf
+              id$       = "[[ item.id ]]"
+              class$    = "[[ item.class ]] tree-view-leaf"
+              position  = "[[ index ]]"
+              label     = "[[ item.label ]]"
+              disabled  = "[[ item.disabled ]]"
+              removable = "[[ item.removable ]]"
+              prefix    = "[[ item.prefix ]]"
+              postfix   = "[[ item.postfix ]]"
+              detail    = "[[ item ]]"></px-tree-view-leaf>
+          </template>
+
+          <template is="dom-if" if="[[ item.items ]]">
+            <px-tree-view-branch
+              id$       = "[[ item.id ]]"
+              class$    = "[[ item.class ]] tree-view-branch"
+              position  = "[[ index ]]"
+              label     = "[[ item.label ]]"
+              items     = "[[ item.items ]]"
+              disabled  = "[[ item.disabled ]]"
+              expanded  = "[[ item.expanded ]]"
+              removable = "[[ item.removable ]]"
+              prefix    = "[[ item.prefix ]]"
+              postfix   = "[[ item.postfix ]]"
+              before    = "[[ item.before ]]"
+              after     = "[[ item.after ]]"
+              detail    = "[[ item ]]"></px-tree-view-branch>
+          </template>
+        </li>
+      </template>
+    </ul>
+  </template>
+</dom-module>
+
+<script>
+Polymer({
+  is:'px-tree-view-node', 
+
+  /**
+   * @property properties
+   * @type Object
+   */
+  properties:{
+    /**
+     * Full data structure of the tree
+     * @property items
+     * @type {Array}
+     */
+    items:{
+      type:Array,
+      value:function(){ return []; }
+    }
+  }
+});
+</script>

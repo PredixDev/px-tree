@@ -1,0 +1,246 @@
+@import "px-colors-design/_settings.colors.scss";
+
+$tree-view-indent-size: 25px;
+$tree-view-max-depth: 25;
+
+// Lights On Theme
+$tree-view-background: var(--px-tree-view-background, transparent);
+$tree-view-background--hover: var(--px-tree-view-background--hover, $gray3);
+$tree-view-background--selected: var(--px-tree-view-background--selected, $gray2);
+
+$tree-view-border: var(--px-tree-view-border, transparent);
+$tree-view-border--hover: var(--px-tree-view-border--hover, $gray3);
+$tree-view-border--selected: var(--px-tree-view-border--selected, $gray3);
+
+$tree-view-toggle: var(--px-tree-view-toggle, $gray8);
+$tree-view-toggle--hover: var(--px-tree-view-toggle--hover, $gray10);
+$tree-view-toggle--selected: var(--px-tree-view-toggle--selected, $gray10);
+$tree-view-toggle--disabled: var(--px-tree-view-toggle--disabled, $gray4);
+
+$tree-view-icon: var(--px-tree-view-icon, $gray8);
+$tree-view-icon--hover: var(--px-tree-view-icon--hover, $gray10);
+$tree-view-icon--selected: var(--px-tree-view-icon--selected, $gray10);
+$tree-view-icon--disabled: var(--px-tree-view-icon--disabled, $gray4);
+
+$tree-view-icon-border: var(--px-tree-view-border, $gray4);
+$tree-view-icon-border--hover: var(--px-tree-view-border--hover, $gray10);
+$tree-view-icon-border--selected: var(--px-tree-view-border--selected, $gray10);
+$tree-view-icon-border--disabled: var(--px-tree-view-border--disabled, $gray4);
+
+$tree-view-text: var(--px-tree-view-text, $gray8);
+$tree-view-text--hover: var(--px-tree-view-text--hover, $gray10);
+$tree-view-text--selected: var(--px-tree-view-text--selected, $gray10);
+$tree-view-text--disabled: var(--px-tree-view-text--disabled, $gray4);
+
+$tree-view-branch-text: var(--px-tree-view-text, $gray8);
+$tree-view-branch-text--hover: var(--px-tree-view-text--hover, $gray10);
+$tree-view-branch-text--selected: var(--px-tree-view-text--selected, $gray10);
+$tree-view-branch-text--disabled: var(--px-tree-view-text--disabled, $gray4);
+
+
+
+
+:host([lights-off]) {
+  .tree-view-label {
+    background:$gray8;
+    border-color:transparent;
+    color:$white;
+
+    &:hover {
+      background:$gray10;
+      border-color:$gray10;
+      color:$white;
+
+      .tree-view-prefix {
+        .tree-view-icon {
+          border-color:$gray4;
+          color:$white;
+        }
+      }
+    }
+
+    &.selected {
+      background:$gray7;
+      border-color:$gray8;
+      color:$white;
+
+      &:hover {
+        background:$gray10;
+      }
+
+      .tree-view-prefix {
+        .tree-view-icon {
+          border-color:$grey4;
+          color:$white;
+        }
+      }
+    }
+
+    &.disabled {
+      color:$gray6;
+
+      &:hover {
+        background:$gray8;
+        border-bottom-color:$grey8;
+
+        .tree-view-prefix {
+          .tree-view-icon {
+            border-color:$grey6;
+            color:$gray6;
+          }
+        }        
+      }
+
+      .tree-view-prefix {
+        .tree-view-icon {
+          border-color:$grey6;
+          color:$gray6;
+        }
+      }
+    }
+
+    .tree-view-prefix {
+      .tree-view-icon {
+        border-color:$gray4;
+        color:$white;
+      }
+    }
+
+    .tree-view-remove-icon {
+      color:$white;
+    }
+  }
+}
+
+
+
+
+ul,
+li {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+.tree-view-label {
+  display:flex;
+  user-select: none;
+  background:$tree-view-background;
+  border-bottom:1px solid $tree-view-border;
+  color:$tree-view-text;
+
+  &:hover {
+    background:$tree-view-background--hover;
+    border-bottom-color:$tree-view-border--hover;
+    color:$tree-view-text--hover;
+    
+    .tree-view-prefix {
+      .tree-view-icon {
+        border-color:$tree-view-icon-border--hover;
+        color:$tree-view-icon--hover;
+      }
+    }
+
+    .tree-view-remove-icon {
+      display:block;
+    }
+  }
+
+  &.selected {
+    background:$tree-view-background--selected;
+    border-bottom-color:$tree-view-border--selected;
+    color:$tree-view-text--selected;
+
+    &:hover {
+      background:$tree-view-background--hover;
+    }
+
+    .tree-view-prefix {
+      .tree-view-icon {
+        border-color:$tree-view-icon-border--selected;
+        color:$tree-view-icon--selected;
+      }
+    }
+  }
+
+  &.disabled {
+    color:$tree-view-text--disabled;
+
+    &:hover {
+      background:transparent;
+      border-bottom-color:transparent;
+
+      .tree-view-remove-icon {
+        display:none;
+      }
+    }
+
+    .tree-view-text {
+      cursor:default;
+    }
+
+    .tree-view-prefix {
+      .tree-view-icon {
+        border-color:$tree-view-icon-border--disabled;
+        color:$tree-view-icon--disabled;
+      }
+    }
+  }
+
+  .tree-view-prefix {
+    display:flex;
+
+    .tree-view-icon {
+      height:20px;
+      width:20px;
+      margin:3px 5px 3px 0;
+      padding-left:0.15em;
+      border:1px solid $tree-view-icon-border;
+      border-radius:10px;
+      text-align:center;
+      line-height:1.3em;
+      color:$tree-view-icon;
+
+      .tree-view-iron-icon {
+        height:12px;
+        width:12px;
+      }
+
+      &.simple {
+        border-color:transparent !important;
+      }
+
+      &.hide {
+        display:none;
+      }
+    }
+  }
+
+  .tree-view-postfix {
+    display:flex;
+
+    .tree-view-postfix-icon {
+      margin-left:5px;
+    }
+  }
+
+  .tree-view-text {
+    flex:1;
+    margin:4px 0 1px;
+    text-decoration:none;
+    white-space:nowrap;
+    color:inherit;
+  }
+  
+  .tree-view-remove-icon {
+    display:none;
+    margin:0.25em 10px 0 0;
+    color:$tree-view-text;
+    cursor:pointer;
+
+    .tree-view-iron-icon {
+      height:11px;
+      width:11px;
+    }
+  }
+}
