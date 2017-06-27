@@ -1,8 +1,8 @@
 {
-    "name": "px-tree-view",
+    "name": "px-tree",
     "author": "General Electric",
     "description": "A Px component",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "private": true,
     "extName" : null,
     "repository" :

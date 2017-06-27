@@ -22,7 +22,7 @@ function getnodes(level){
 }
 
 function runCustomTests(){
-  suite('<px-tree-view>', function(){
+  suite('<px-tree>', function(){
     test('Property and methods are intact', function(){
       assert.typeOf(px_tree_view.selected,'array');
       assert.typeOf(px_tree_view.items,'array');
@@ -47,8 +47,8 @@ function runCustomTests(){
         setTimeout(function(){
           assert.equal(px_tree_view.items.length, 1);
           assert.equal(px_tree_view._childnodes.length, 1);
-          assert.equal(px_tree_view.nodes(0).is,'px-tree-view-leaf');
-          
+          assert.equal(px_tree_view.nodes(0).is,'px-tree-leaf');
+
           px_tree_view.flush();
           done();
         });
@@ -56,12 +56,12 @@ function runCustomTests(){
 
       test('Inserts a branch', function(done){
         px_tree_view.insert({ "label":"Branch", "items":[ { "label":"Branch Child" } ] });
-        
+
         setTimeout(function(){
           assert.equal(px_tree_view.items.length, 1);
           assert.equal(px_tree_view._childnodes.length, 1);
-          assert.equal(px_tree_view.nodes(0).is,'px-tree-view-branch');
-          
+          assert.equal(px_tree_view.nodes(0).is,'px-tree-branch');
+
           px_tree_view.flush();
           done();
         });
@@ -71,7 +71,7 @@ function runCustomTests(){
         px_tree_view.insert(getnodes());
 
         px_tree_view.insert({ "label":"Injected" },0);
-        
+
         setTimeout(function(){
           assert.equal(px_tree_view.nodes(1).label, 'Injected');
 
@@ -84,7 +84,7 @@ function runCustomTests(){
         px_tree_view.insert(getnodes());
 
         px_tree_view.insert([{ "label":"Injected 1" },{ "label":"Injected 2" }],0);
-        
+
         setTimeout(function(){
           assert.equal(px_tree_view.nodes(1).label, 'Injected 1');
           assert.equal(px_tree_view.nodes(2).label, 'Injected 2');
@@ -98,7 +98,7 @@ function runCustomTests(){
     suite('Removes individual leafs and branches', function(){
       test('Removes a leaf', function(done){
         px_tree_view.insert({ "label":"Leaf" });
-        
+
         setTimeout(function(){
           assert.equal(px_tree_view.items.length, 1);
           assert.equal(px_tree_view._childnodes.length, 1);
@@ -108,7 +108,7 @@ function runCustomTests(){
           setTimeout(function(){
             assert.equal(px_tree_view.items.length, 0);
             assert.equal(px_tree_view._childnodes.length, 0);
-            
+
             px_tree_view.flush();
             done();
           });
@@ -117,7 +117,7 @@ function runCustomTests(){
 
       test('Removes a branch', function(done){
         px_tree_view.insert({ "label":"Leaf", "items":[] });
-        
+
         setTimeout(function(){
           assert.equal(px_tree_view.items.length, 1);
           assert.equal(px_tree_view._childnodes.length, 1);
@@ -127,7 +127,7 @@ function runCustomTests(){
           setTimeout(function(){
             assert.equal(px_tree_view.items.length, 0);
             assert.equal(px_tree_view._childnodes.length, 0);
-            
+
             px_tree_view.flush();
             done();
           });
@@ -142,10 +142,10 @@ function runCustomTests(){
 
         setTimeout(function(){
           assert.equal(px_tree_view._childnodes.length, 4);
-          assert.equal(px_tree_view.nodes(0).is,'px-tree-view-leaf');
-          assert.equal(px_tree_view.nodes(1).is,'px-tree-view-leaf');
-          assert.equal(px_tree_view.nodes(2).is,'px-tree-view-branch');
-          assert.equal(px_tree_view.nodes(3).is,'px-tree-view-leaf');
+          assert.equal(px_tree_view.nodes(0).is,'px-tree-leaf');
+          assert.equal(px_tree_view.nodes(1).is,'px-tree-leaf');
+          assert.equal(px_tree_view.nodes(2).is,'px-tree-branch');
+          assert.equal(px_tree_view.nodes(3).is,'px-tree-leaf');
 
           px_tree_view.flush();
           done();
@@ -156,7 +156,7 @@ function runCustomTests(){
     suite('Flushes the tree', function() {
       test('Removes all children', function(done){
         px_tree_view.insert(getnodes());
-          
+
         setTimeout(function(){
           px_tree_view.flush();
 
@@ -164,7 +164,7 @@ function runCustomTests(){
             assert.equal(px_tree_view.selected.length, 0);
             assert.equal(px_tree_view.items.length, 0);
             assert.equal(px_tree_view._childnodes.length, 0);
-            
+
             done();
           });
         });
@@ -178,12 +178,12 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.expand();
 
           assert.equal(px_tree_view.selected.length, 0);
           assert.equal(branch.expanded, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -195,12 +195,12 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.collapse();
 
           assert.equal(px_tree_view.selected.length, 0);
           assert.equal(branch.expanded, undefined);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -214,12 +214,12 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.expand();
 
           assert.equal(px_tree_view.selected.length, 0);
           assert.equal(branch.expanded, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -231,12 +231,12 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.collapse();
 
           assert.equal(px_tree_view.selected.length, 0);
           assert.equal(branch.expanded, undefined);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -248,7 +248,7 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.toggle();
 
           assert.equal(px_tree_view.selected.length, 0);
@@ -257,8 +257,8 @@ function runCustomTests(){
           branch.toggle();
 
           assert.equal(px_tree_view.selected.length, 0);
-          assert.equal(branch.expanded, false);          
-          
+          assert.equal(branch.expanded, false);
+
           px_tree_view.flush();
           done();
         });
@@ -276,8 +276,8 @@ function runCustomTests(){
           px_tree_view.toggle();
 
           assert.equal(px_tree_view.selected.length, 0);
-          assert.equal(px_tree_view.nodes(2).expanded, false);          
-          
+          assert.equal(px_tree_view.nodes(2).expanded, false);
+
           px_tree_view.flush();
           done();
         });
@@ -291,12 +291,12 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.select();
 
           assert.equal(px_tree_view.selected.length, 1);
           assert.equal(branch.selected, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -308,7 +308,7 @@ function runCustomTests(){
         setTimeout(function(){
           var branch = px_tree_view.nodes(2);
 
-          assert.equal(branch.is,'px-tree-view-branch');
+          assert.equal(branch.is,'px-tree-branch');
           branch.select();
 
           setTimeout(function(){
@@ -319,7 +319,7 @@ function runCustomTests(){
             setTimeout(function(){
               assert.equal(px_tree_view.selected.length, 0);
               assert.equal(branch.selected, false);
-              
+
               px_tree_view.flush();
               done();
             });
@@ -333,13 +333,13 @@ function runCustomTests(){
         setTimeout(function(){
           var leaf = px_tree_view.nodes(0);
 
-          assert.equal(leaf.is,'px-tree-view-leaf');
+          assert.equal(leaf.is,'px-tree-leaf');
           leaf.select();
 
           setTimeout(function(){
             assert.equal(px_tree_view.selected.length, 1);
             assert.equal(leaf.selected, true);
-            
+
             px_tree_view.flush();
             done();
           });
@@ -348,17 +348,17 @@ function runCustomTests(){
 
       test('Deselects a leaf', function(done){
         px_tree_view.insert(getnodes());
-        
+
         setTimeout(function(){
           var leaf = px_tree_view.nodes(0);
 
-          assert.equal(leaf.is,'px-tree-view-leaf');
+          assert.equal(leaf.is,'px-tree-leaf');
           leaf.deselect();
 
           setTimeout(function(){
             assert.equal(px_tree_view.selected.length, 0);
             assert.equal(leaf.selected, false);
-            
+
             px_tree_view.flush();
             done();
           });
@@ -376,7 +376,7 @@ function runCustomTests(){
 
           assert.equal(px_tree_view.selected.length, 1);
           assert.equal(px_tree_view.nodes(0).selected, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -392,7 +392,7 @@ function runCustomTests(){
           assert.equal(px_tree_view.nodes(0).selected, true);
           assert.equal(px_tree_view.nodes(2).selected, true);
           assert.equal(px_tree_view.nodes(3).selected, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -409,7 +409,7 @@ function runCustomTests(){
           assert.equal(px_tree_view.nodes(0).selected, true);
           assert.equal(px_tree_view.nodes(2).selected, false);
           assert.equal(px_tree_view.nodes(3).selected, true);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -426,7 +426,7 @@ function runCustomTests(){
           assert.equal(px_tree_view.nodes(0).selected, false);
           assert.equal(px_tree_view.nodes(2).selected, false);
           assert.equal(px_tree_view.nodes(3).selected, false);
-          
+
           px_tree_view.flush();
           done();
         });
@@ -435,7 +435,7 @@ function runCustomTests(){
 
 
 
-    suite('<px-tree-view> Events', function(){
+    suite('<px-tree> Events', function(){
       test('Fires <insert> event', function(done){
         function fn(e){
           console.log('asdf');
@@ -457,7 +457,7 @@ function runCustomTests(){
       test('Fires <flush> event', function(done){
         function fn(e){
           assert.isDefined(e.detail.scope,'Scope is defined');
-           
+
           done();
 
           px_tree_view.removeEventListener('flush', fn);
@@ -468,20 +468,20 @@ function runCustomTests(){
         px_tree_view.flush();
       });
 
-      
+
       test('Fires <remove> event', function(done){
         function fn(e){
           assert.isDefined(e.detail.scope,'Scope is defined');
           assert.isDefined(e.detail.data,'Data is defined');
           assert.isDefined(e.detail.data.foo,'Detail data is defined');
-          
+
           done();
 
           px_tree_view.removeEventListener('remove', fn);
         }
 
         px_tree_view.addEventListener('remove', fn);
-        
+
         setTimeout(function(){
           px_tree_view.insert({ "label":"Label", "foo":"bar" });
           px_tree_view.remove(0);
@@ -489,11 +489,11 @@ function runCustomTests(){
       });
     });
   });
-  
 
 
 
-  suite('<px-tree-view-branch>', function(){
+
+  suite('<px-tree-branch>', function(){
     test('Property and methods are intact', function(done){
       px_tree_view.flush();
       px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
@@ -501,7 +501,7 @@ function runCustomTests(){
       setTimeout(function(){
         var branch=px_tree_view.nodes(0);
 
-        assert.equal(branch.is, 'px-tree-view-branch');
+        assert.equal(branch.is, 'px-tree-branch');
         assert.typeOf(branch.label,'string');
         assert.typeOf(branch.items,'array');
         assert.typeOf(branch.nodes,'function');
@@ -521,13 +521,13 @@ function runCustomTests(){
       });
     });
 
-    suite('<px-tree-view-branch> Events', function(){
+    suite('<px-tree-branch> Events', function(){
       test('Fires <insert> event', function(done){
         function fn(e){
           assert.isDefined(e.detail.scope,'Scope is defined');
           assert.isDefined(e.detail.data,'Data is defined');
           assert.isDefined(e.detail.data.foo,'Detail data is defined');
-          
+
           done();
 
           px_tree_view.removeEventListener('insert', fn);
@@ -544,7 +544,7 @@ function runCustomTests(){
           assert.isDefined(e.detail.scope,'Scope is defined');
           assert.isDefined(e.detail.data,'Data is defined');
           assert.isDefined(e.detail.data.foo,'Detail data is defined');
-          
+
           done();
 
           px_tree_view.removeEventListener('remove', fn);
@@ -594,7 +594,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('branch.select', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.select(0);
         });
@@ -616,7 +616,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('deselect', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.select(0).deselect(0);
         });
@@ -638,7 +638,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('branch.deselect', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.select(0).deselect(0);
         });
@@ -660,7 +660,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('toggle', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.toggle(0);
         });
@@ -682,7 +682,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('expand', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.expand(0);
         });
@@ -704,7 +704,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('collapse', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.expand(0).collapse(0);
         });
@@ -725,7 +725,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('empty', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.expand(0);
         });
@@ -747,7 +747,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('disable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0);
         });
@@ -769,7 +769,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('branch.disable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0);
         });
@@ -791,7 +791,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('enable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0).enable(0);
         });
@@ -813,7 +813,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('branch.enable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar", "items":[] });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0).enable(0);
         });
@@ -824,7 +824,7 @@ function runCustomTests(){
 
 
 
-  suite('<px-tree-view-leaf>', function(){
+  suite('<px-tree-leaf>', function(){
     test('Property and methods are intact', function(done){
       px_tree_view.flush();
       px_tree_view.insert({ "label":"Label", "foo":"bar" });
@@ -832,7 +832,7 @@ function runCustomTests(){
       setTimeout(function(){
         var leaf=px_tree_view.nodes(0);
 
-        assert.equal(leaf.is, 'px-tree-view-leaf');
+        assert.equal(leaf.is, 'px-tree-leaf');
         assert.typeOf(leaf.label,'string');
         assert.typeOf(leaf.remove,'function');
         assert.typeOf(leaf.select,'function');
@@ -846,13 +846,13 @@ function runCustomTests(){
     });
 
 
-    suite('<px-tree-view-leaf> Events', function(){
+    suite('<px-tree-leaf> Events', function(){
       test('Fires <remove> event', function(done){
         function fn(e){
           assert.isDefined(e.detail.scope,'Scope is defined');
           assert.isDefined(e.detail.data,'Data is defined');
           assert.isDefined(e.detail.data.foo,'Detail data is defined');
-          
+
           done();
 
           px_tree_view.removeEventListener('remove', fn);
@@ -883,7 +883,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('select', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.select(0);
         });
@@ -905,7 +905,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('leaf.select', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.select(0);
         });
@@ -927,7 +927,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('deselect', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.select(0).deselect(0);
         });
@@ -949,7 +949,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('leaf.deselect', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.select(0).deselect(0);
         });
@@ -971,7 +971,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('disable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0);
         });
@@ -993,7 +993,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('leaf.disable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0);
         });
@@ -1015,7 +1015,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('enable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0).enable(0);
         });
@@ -1037,7 +1037,7 @@ function runCustomTests(){
 
         px_tree_view.addEventListener('leaf.enable', fn);
         px_tree_view.insert({ "label":"Label", "foo":"bar" });
-        
+
         setTimeout(function(){
           px_tree_view.disable(0).enable(0);
         });

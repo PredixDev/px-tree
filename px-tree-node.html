@@ -1,0 +1,124 @@
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-polymer-font-awesome/px-icon-set.html"/>
+<link rel="import" href="../iron-collapse/iron-collapse.html"/>
+<link rel="import" href="px-tree-behavior.html"/>
+<link rel="import" href="css/px-tree-styles.html">
+
+<dom-module id="px-tree-node">
+  <template>
+    <style include="px-tree-styles"></style>
+
+      <template is="dom-if" if="[[canOpen]]">
+        <li class$="tree__branch [[_getClass(isActive, isSelected)]]" asset-action="selectAndToggle"><iron-icon class="chevron" icon="[[_getIcon(isActive)]]" asset-action="toggle"></iron-icon>[[label]]</li>
+        <iron-collapse id="collapse" opened$="[[isActive]]">
+          <div class="collapse-content">
+            <template is="dom-repeat" items="[[items]]" as="subitem">
+              <px-tree-node label="[[subitem.label]]"
+                            items="[[_getItemProp(subitem, keys.children)]]"
+                            item="[[subitem]]"
+                            keys="[[keys]]"
+                            active="[[active]]"
+                            selected="[[selected]]"
+                            is-active="[[_isItemActive(active, subitem, multiActive, active.*)]]"
+                            is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
+                            can-open="[[_hasChildren(item, subitem.items)]]"
+                            disable-branch-select="[[disableBranchSelect]]"
+                            multi-select="[[multiSelect]]"
+                            multi-active="[[multiActive]]">
+              </px-tree-node>
+            </template>
+          </div>
+        </iron-collapse>
+      </template>
+      <template is="dom-if" if="[[!canOpen]]">
+        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]" asset-action="select">[[label]]</li>
+      </template>
+
+  </template>
+</dom-module>
+
+<script>
+
+Polymer({
+  is:'px-tree-node',
+
+  behaviors: [ PxTreeBehavior ],
+
+  listeners: {
+    'tap' : '_handleTap'
+  },
+
+  properties: {
+
+    label: String,
+
+    canOpen: {
+      type: Boolean,
+      value: false
+    },
+
+    item: Object,
+
+    items: Array,
+
+    isActive: Boolean,
+
+    isSelected: Boolean,
+
+    keys: Object,
+
+    multi: Boolean
+
+  },
+  /**
+   * Calculates whether to display the chevron for an expanded node
+   * or a collapsed node given the current activePath.
+   */
+  _getIcon: function(isActive) {
+    return isActive ? "px:chevron-down" : "px:chevron-right";
+  },
+  /**
+   * Determines which class (active/selected/both) should be present on the node.
+   */
+  _getClass: function(isActive, isSelected) {
+    var classList = [];
+    if(isActive) {
+      classList.push('active');
+    }
+    if(isSelected) {
+      classList.push('selected');
+    }
+    return classList.join(' ');
+  },
+  /**
+   * Event handler for tap events. Determines whether a node should be
+   * selected, toggled, or both; and fires events to the tree accordingly.
+   */
+  _handleTap: function(evt) {
+    evt.stopPropagation();
+    var path = Polymer.dom(evt).path,
+        shift = Polymer.dom(evt).event.detail.sourceEvent.shiftKey,
+        ctrl = Polymer.dom(evt).event.detail.sourceEvent.ctrlKey || Polymer.dom(evt).event.detail.sourceEvent.metaKey,
+        action;
+
+    for (var i=0; i<path.length; i++) {
+      if (path[i] instanceof Node && path[i].hasAttribute && path[i].hasAttribute('asset-action')) {
+        action = path[i].getAttribute('asset-action');
+        break;
+      }
+    }
+    if(!action) return;
+    if(action === "selectAndToggle" || action === "toggle") {
+      if(this.isActive) {
+        this.fire('px-app-asset-should-be-deactivated', {'item' : this.item});
+      }
+      else {
+        this.fire('px-app-asset-should-be-activated', {'item' : this.item});
+      }
+    }
+    if((action === "selectAndToggle" && !this.disableBranchSelect) || action === "select" && !this.isSelected) {
+      this.fire('px-app-asset-should-be-selected', {'item' : this.item});
+    }
+  }
+});
+</script>

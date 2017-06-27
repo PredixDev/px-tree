@@ -37,7 +37,7 @@
     }
   },
   "suites": [
-    "test/px-tree-view-test-fixture.html"
+    "test/px-tree-test-fixture.html"
   ]
 
 }

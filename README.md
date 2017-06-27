@@ -1,8 +1,8 @@
-#px-tree-view
+#px-tree
 
 ## Overview
 
-px-tree-view is a Predix UI component
+px-tree is a Predix UI component
 
 ## Usage
 
@@ -19,19 +19,19 @@ Node, npm and bower are necessary to install the component and dependencies. web
 First, install the component via bower on the command line.
 
 ```
-bower install px-tree-view --save
+bower install px-tree --save
 ```
 
 Second, import the component to your application with the following tag in your head.
 
 ```
-<link rel="import" href="/bower_components/px-tree-view/px-tree-view.html"/>
+<link rel="import" href="/bower_components/px-tree/px-tree.html"/>
 ```
 
 Finally, use the component in your application:
 
 ```
-<px-tree-view id="my-tree" items='[{"label":"One"},{"label":"Two"},{"label":"Three","items":[{"label":"Child One"},{"label":"Child Two"}]}}]'></px-tree-view>
+<px-tree id="my-tree" items='[{"label":"One"},{"label":"Two"},{"label":"Three","items":[{"label":"Child One"},{"label":"Child Two"}]}}]'></px-tree>
 ```
 
 <br />
@@ -39,7 +39,7 @@ Finally, use the component in your application:
 
 ## documentation
 
-Read the full API and view the demo [here](https://predixdev.github.io/px-tree-view).
+Read the full API and view the demo [here](https://predixdev.github.io/px-tree).
 
 The documentation in this repository is supplemental to the official Predix documentation, which is continuously updated and maintained by the Predix documentation team. Go to [http://predix.io](http://predix.io)  to see the official Predix documentation.
 
@@ -70,7 +70,7 @@ Navigate to the root of that server (e.g. http://localhost:8080/) in a browser t
 
 ## Known Issues
 
-Please use [Github Issues](https://github.com/PredixDev/px-tree-view/issues) to submit any bugs you might find.
+Please use [Github Issues](https://github.com/PredixDev/px-tree/issues) to submit any bugs you might find.
 =======
 # px-tree-browser
 Generic tree browser polymer component

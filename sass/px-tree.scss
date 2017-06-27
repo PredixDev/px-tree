@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2014 GE Global Research. All rights reserved.
+ *
+ * The copyright to the computer software herein is the property of
+ * GE Global Research. The software may be used and/or copied only
+ * with the written permission of GE Global Research or in accordance
+ * with the terms and conditions stipulated in the agreement/contract
+ * under which the software has been supplied.
+ */
+
+@import "px-colors-design/_settings.colors.scss";
+
+ul, li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1.8rem;
+  user-select: none;
+  cursor: pointer;
+}
+.tree__leaf, .tree__branch {
+  &:hover {
+    background-color: $gray1;
+  }
+  &.selected {
+    background-color: $gray3;
+  }
+}
+.tree__leaf {
+  padding-left: 1.5rem;
+}
+.tree__branch {
+  .chevron {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+}
+.collapse-content {
+  padding-left: 1.5rem;
+}
