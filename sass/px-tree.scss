@@ -8,8 +8,6 @@
  * under which the software has been supplied.
  */
 
-@import "px-colors-design/_settings.colors.scss";
-
 ul, li {
   list-style: none;
   padding: 0;
@@ -19,11 +17,14 @@ ul, li {
   cursor: pointer;
 }
 .tree__leaf, .tree__branch {
+  color: var(--px-tree-text-color, black);
   &:hover {
-    background-color: $gray1;
+    color: var(--px-tree-text-color--hover, black);
+    background-color: var(--px-tree-background-color--hover, lightgray);
   }
   &.selected {
-    background-color: $gray3;
+    color: var(--px-tree-text-color--selected, white);
+    background-color: var(--px-tree-background-color--selected, gray);
   }
 }
 .tree__leaf {

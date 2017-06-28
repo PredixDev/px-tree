@@ -36,12 +36,12 @@
       /**
        * Calculates whether the specified item is present in the activePath.
        */
-      _isItemActive: function(active, item, multiActive) {
+      _isItemActive: function(active, activePath, item, multiActive) {
         if(this.multiActive && typeof active === 'object' && Array.isArray(active)) {
           return active.indexOf(item) > -1;
         }
         else {
-          return active === item;
+          return activePath && activePath.indexOf(item) > -1;
         }
       },
       /**

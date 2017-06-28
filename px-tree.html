@@ -16,8 +16,13 @@
 ### Styling
 The following custom properties are available for styling:
 
-Custom property | Description | Default
-----------------|-------------|----------
+Custom property | Description
+:----------------|:-------------
+`--px-tree-text-color` | Text color for the tree
+`--px-tree-text-color--hover` | Text color for hovered tree nodes
+`--px-tree-background-color--hover` | Background color for hovered tree nodes
+`--px-tree-text-color--selected` | Text color for selected tree nodes
+`--px-tree-background-color--selected` | Background color for selected tree nodes
 
 @element px-tree
 @blurb Generic tree component
@@ -35,9 +40,10 @@ Custom property | Description | Default
                       items="[[_getItemProp(item, keys.children)]]"
                       item="[[item]]"
                       keys="[[keys]]"
-                      is-active="[[_isItemActive(active, item, multiActive, active.*)]]"
+                      is-active="[[_isItemActive(active, activePath, item, multiActive, active.*)]]"
                       is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]"
                       active="[[active]]"
+                      active-path="[[activePath]]"
                       selected="[[selected]]"
                       can-open="[[_hasChildren(item, item.items)]]"
                       disable-branch-select="[[disableBranchSelect]]"
@@ -62,7 +68,11 @@ Polymer({
     PxTreeBehavior
   ],
 
-  properties:{
+  listeners: {
+    'px-tree-node-tapped' : '_handleNodeTapped'
+  },
+
+  properties: {
     /**
      * Changes the item properties (keys) that will be used internally to find
      * each item's unique id, label, children list, and icon.
@@ -78,338 +88,73 @@ Polymer({
         }
       }
     },
-
+    /**
+     * If set to true, multiple nodes can be selected at the same time in the tree
+     * by using the shift key (for selecting a range) or the ctrl/cmd key (for selecting individual nodes).
+     */
     multiSelect: {
       type: Boolean,
       value: false
     },
-
+    /**
+     * If set to true, multiple nodes can be active (expanded) at the same time.
+     * If set to false, expanding a node will cause other nodes to automatically collapse.
+     */
     multiActive: {
+      type: Boolean,
+      value: false
+    },
+    /**
+     * If set to true, branches (nodes with children) will not be selectable.
+     * Clicking on a branch will still cause it to become active (expand), but it
+     * will not be added to the selected property.
+     */
+    disableBranchSelect: {
       type: Boolean,
       value: false
     }
 
   },
 
+  _handleNodeTapped: function(e) {
+    const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
+    if(isBranch && !isActive) {
+      this.fire('px-app-asset-should-be-activated', {'item' : item});
+    }
+    if(isBranch && isActive) {
+      if(!this.multiActive && this._assetGraph.getNodeInfo(item).parent) {
+        this.fire('px-app-asset-should-be-activated', {'item' : this._assetGraph.getNodeInfo(item).parent});
+      }
+      else {
+        this.fire('px-app-asset-should-be-deactivated', {'item' : item});
+      }
+    }
+    if(isBranch && this.disableBranchSelect || isIcon) return;
+    if(isSelected && (ctrl || shift)) {
+      this.fire('px-app-asset-should-be-deselected', {'item' : item});
+      return;
+    }
+    if(!ctrl && !shift) {
+      this._clearSelectedAsset('DOM_EVENT');
+    }
+    if(this.multiSelect && shift) {
+      var index1 = this._assetGraph.getNodeInfo(item).siblings.indexOf(item),
+          index2 = this._assetGraph.getNodeInfo(item).siblings.indexOf(this._lastSelection.item);
+      if(index2 > -1 && index2 < index1) {
+        this._assetGraph.getNodeInfo(item).siblings.slice(index2+1, index1+1).forEach(function(item) {
+          this.select(item);
+        }.bind(this));
+      }
+      else if(index2 > -1) {
+        this._assetGraph.getNodeInfo(item).siblings.slice(index1, index2).forEach(function(item) {
+          this.select(item);
+        }.bind(this));
+      }
+    }
+    else {
+      this.fire('px-app-asset-should-be-selected', {'item' : item});
+    }
+  }
 
-  // /**
-  //  * Sets the selected state for a node in the tree.
-  //  */
-  // _select: function(node) {
-  //   this.selected.push(node);
-  // },
-
-  // /**
-  //  * Sets the node state to deselected
-  //  */
-  // _deselect: function(node) {
-  //   this.selected.splice(this.selected.indexOf(node),1);
-  // },
-
-  // /**
-  //  * Removes the passed index from as a child
-  //  */
-  // _remove: function(index) {
-  //   this.splice('items', index, 1);
-  //   this._childnodes.splice(index, 1);
-  //   this._each(this._childnodes, function(node,i){
-  //     node.position=i;
-  //   });
-  // },
-
-  // /**
-  //  * Returns all of the details for an event
-  //  */
-  // _detail: function(extras) {
-  //   var detail = {
-  //     type:'branch',
-  //     scope:this
-  //   };
-  //   if (extras){
-  //     this._each(extras, function(extra,key){
-  //       if (this._isundef(detail[key])){
-  //         detail[key]=extra;
-  //       }
-  //     });
-  //   }
-  //   return detail;
-  // },
-
-  // /**
-  //  * Returns a single child that exists in the root branch if an index is passed.
-  //  * If the argument is undefined, all child nodes will be returned. If the argument
-  //  * passed is an element and it's either a branch or leaf component, it will be returned.
-  //  */
-  // nodes: function(node) {
-  //   if (!this._childnodes){
-  //     return [];
-  //   }
-  //   if (this._isundef(node)){
-  //     return this._childnodes;
-  //   }
-  //   if (this._iselm(node)){
-  //     return node;
-  //   }
-  //   return this._childnodes[node];
-  // },
-
-  // /**
-  //  * Returns true if the node is a branch
-  //  */
-  // isbranch: function(node) {
-  //   return node && node.is==='px-tree-branch';
-  // },
-
-  // /**
-  //  * Returns true if the node is a leaf
-  //  */
-  // isleaf: function(node) {
-  //   return node && node.is==='px-tree-leaf';
-  // },
-
-  // /**
-  //  * Add a single or multiple items (an array of items) to the tree browser
-  //  */
-  // insert: function(node,after) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(node,i){
-  //       this.insert(node,(this._isundef(after) ? after : after+i));
-  //     });
-  //   }
-  //   else {
-  //     if (!this._isundef(after)){
-  //       if (this._iselm(after)){
-  //         this._each(this.items, function(child,i){
-  //           if (child===after){
-  //             after=i;
-  //             return true;
-  //           }
-  //         });
-  //       }
-  //       this.splice('items', after+1, 0, node);
-  //       this._childnodes.splice(after+1, 0, node);
-
-  //       this.fire('px-tree-insert', this._detail({ data:node }));
-  //     }
-  //     else {
-  //       this.push('items', node);
-  //       this.fire('px-tree-insert', this._detail({ data:node }));
-  //     }
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * This will flush the data and visual child node component from the parent node by the
-  //  * index of the array (if an int is passed) or by the element of the child (if an element
-  //  * is passed).
-  //  */
-  // remove: function(node) {
-  //   if (this._iselm(node)){
-  //     if (!this._isundef(node.position)){
-  //       node.remove();
-  //     }
-  //   }
-  //   else if (this._isnum(node)){
-  //     node = this.nodes(node);
-  //     if (this._iselm(node)){
-  //       node.remove();
-  //     }
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Flushes of all branches and leafs in the root of the tree.
-  //  */
-  // flush: function() {
-  //   var node;
-
-  //   if (this._childnodes){
-  //     while(this._childnodes.length){
-  //       node = this._last(this._childnodes);
-  //       node.remove();
-  //     }
-  //   }
-  //   this.fire('px-tree-flush', this._detail());
-  //   this.fire('px-tree-tree-flush', this._detail());
-  //   return this;
-  // },
-
-  // /**
-  //  * Expands all items, or if an index is passed, only that child
-  //  * will be expanded. Optionally an array can be passed to expand
-  //  * multiple items at once.
-  //  */
-  // expand: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.expand(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (node && node.expand){
-  //       node.expand(node);
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       if (node.expand){
-  //         node.expand();
-  //       }
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Collapses all items, or if an index is passed, only that child
-  //  * will be collapsed. Optionally an array can be passed to collapse
-  //  * multiple items at once.
-  //  */
-  // collapse: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.collapse(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (this.isbranch(node)){
-  //       node.collapse(node);
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       if (this.isbranch(node)){
-  //         node.collapse();
-  //       }
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Toggles the node state to expanded. If no argument is passed, all child nodes
-  //  * will be toggled. If an index is passed, it will toggle only that child.
-  //  */
-  // toggle: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.toggle(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (this.isbranch(node)){
-  //       node.toggle(node);
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       if (this.isbranch(node)){
-  //         node.toggle();
-  //       }
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Sets the node state to selected. If no argument is passed, all child nodes
-  //  * will be selected. If an index is passed, it will deselect only that child.
-  //  */
-  // select: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.select(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (node){
-  //       node.select();
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       node.select();
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Sets the node state to deselected. If no argument is passed, all child nodes
-  //  * will be deselected. If an index is passed, it will deselect only that child.
-  //  */
-  // deselect: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.deselect(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (node){
-  //       node.deselect();
-  //     }
-  //   }
-  //   else {
-  //     this._each(this.selected.concat(), function(node){
-  //       node.deselect();
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Sets the node state to enabled. If no argument is passed, all child nodes
-  //  * will be enabled. If an index is passed, it will deselect only that child.
-  //  */
-  // enable: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.enable(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (node){
-  //       node.enable();
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       node.enable();
-  //     });
-  //   }
-  //   return this;
-  // },
-
-  // /**
-  //  * Sets the node state to disabled. If no argument is passed, all child nodes
-  //  * will be disabled. If an index is passed, it will deselect only that child.
-  //  */
-  // disable: function(node) {
-  //   if (this._isarray(node)){
-  //     this._each(node, function(i){
-  //       this.disable(i);
-  //     });
-  //   }
-  //   else if (this._isnum(node)){
-  //     node=this.nodes(node);
-  //     if (node){
-  //       node.disable();
-  //     }
-  //   }
-  //   else {
-  //     this._each(this._childnodes, function(node){
-  //       node.disable();
-  //     });
-  //   }
-  //   return this;
-  // }
 });
 </script>

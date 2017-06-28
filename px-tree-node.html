@@ -9,7 +9,7 @@
     <style include="px-tree-styles"></style>
 
       <template is="dom-if" if="[[canOpen]]">
-        <li class$="tree__branch [[_getClass(isActive, isSelected)]]" asset-action="selectAndToggle"><iron-icon class="chevron" icon="[[_getIcon(isActive)]]" asset-action="toggle"></iron-icon>[[label]]</li>
+        <li class$="tree__branch [[_getClass(isActive, isSelected)]]"><iron-icon class="chevron" icon="[[_getIcon(isActive)]]"></iron-icon>[[label]]</li>
         <iron-collapse id="collapse" opened$="[[isActive]]">
           <div class="collapse-content">
             <template is="dom-repeat" items="[[items]]" as="subitem">
@@ -18,8 +18,9 @@
                             item="[[subitem]]"
                             keys="[[keys]]"
                             active="[[active]]"
+                            active-path="[[activePath]]"
                             selected="[[selected]]"
-                            is-active="[[_isItemActive(active, subitem, multiActive, active.*)]]"
+                            is-active="[[_isItemActive(active, activePath, subitem, multiActive, active.*)]]"
                             is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
                             can-open="[[_hasChildren(item, subitem.items)]]"
                             disable-branch-select="[[disableBranchSelect]]"
@@ -31,7 +32,7 @@
         </iron-collapse>
       </template>
       <template is="dom-if" if="[[!canOpen]]">
-        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]" asset-action="select">[[label]]</li>
+        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]">[[label]]</li>
       </template>
 
   </template>
@@ -99,26 +100,9 @@ Polymer({
     var path = Polymer.dom(evt).path,
         shift = Polymer.dom(evt).event.detail.sourceEvent.shiftKey,
         ctrl = Polymer.dom(evt).event.detail.sourceEvent.ctrlKey || Polymer.dom(evt).event.detail.sourceEvent.metaKey,
-        action;
+        isIcon = path[0].nodeName === 'IRON-ICON';
 
-    for (var i=0; i<path.length; i++) {
-      if (path[i] instanceof Node && path[i].hasAttribute && path[i].hasAttribute('asset-action')) {
-        action = path[i].getAttribute('asset-action');
-        break;
-      }
-    }
-    if(!action) return;
-    if(action === "selectAndToggle" || action === "toggle") {
-      if(this.isActive) {
-        this.fire('px-app-asset-should-be-deactivated', {'item' : this.item});
-      }
-      else {
-        this.fire('px-app-asset-should-be-activated', {'item' : this.item});
-      }
-    }
-    if((action === "selectAndToggle" && !this.disableBranchSelect) || action === "select" && !this.isSelected) {
-      this.fire('px-app-asset-should-be-selected', {'item' : this.item});
-    }
+    this.fire('px-tree-node-tapped', {shift, ctrl, item:this.item, isBranch: this.canOpen, isActive:this.isActive, isSelected:this.isSelected, isIcon}, {cancelable:true});
   }
 });
 </script>
