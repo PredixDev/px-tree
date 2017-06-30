@@ -9,7 +9,13 @@
     <style include="px-tree-styles"></style>
 
       <template is="dom-if" if="[[canOpen]]">
-        <li class$="tree__branch [[_getClass(isActive, isSelected)]]"><iron-icon class="chevron" icon="[[_getIcon(isActive)]]"></iron-icon>[[label]]</li>
+        <li class$="tree__branch [[_getClass(isActive, isSelected)]]">
+          <iron-icon class="chevron" icon="[[_getIcon(isActive)]]"></iron-icon>
+          <template is="dom-if" if="[[icon]]">
+            <iron-icon class="icon" icon="[[icon]]"></iron-icon>
+          </template>
+          <span>[[label]]</span>
+        </li>
         <iron-collapse id="collapse" opened$="[[isActive]]">
           <div class="collapse-content">
             <template is="dom-repeat" items="[[items]]" as="subitem">
@@ -25,14 +31,20 @@
                             can-open="[[_hasChildren(item, subitem.items)]]"
                             disable-branch-select="[[disableBranchSelect]]"
                             multi-select="[[multiSelect]]"
-                            multi-active="[[multiActive]]">
+                            multi-active="[[multiActive]]"
+                            icon="[[icon]]">
               </px-tree-node>
             </template>
           </div>
         </iron-collapse>
       </template>
       <template is="dom-if" if="[[!canOpen]]">
-        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]">[[label]]</li>
+        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]">
+          <template is="dom-if" if="[[icon]]">
+            <iron-icon class="icon" icon="[[icon]]"></iron-icon>
+          </template>
+          <span>[[label]]</span>
+        </li>
       </template>
 
   </template>
@@ -68,7 +80,9 @@ Polymer({
 
     keys: Object,
 
-    multi: Boolean
+    multi: Boolean,
+
+    icon: String
 
   },
   /**

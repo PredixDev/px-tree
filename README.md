@@ -1,8 +1,10 @@
-#px-tree
+#px-tree [![Build Status](https://travis-ci.org/PredixDev/px-tree.svg?branch=master)](https://travis-ci.org/PredixDev/px-tree)
+
+[![px-tree demo](px-tree.png?raw=true)](https://github.com/PredixDev/px-tree)
 
 ## Overview
 
-px-tree is a Predix UI component
+This component provides an expandable and selectable tree. The contents are controlled primarily through an object structure of branch and leaf nodes.
 
 ## Usage
 
@@ -31,13 +33,13 @@ Second, import the component to your application with the following tag in your 
 Finally, use the component in your application:
 
 ```
-<px-tree id="my-tree" items='[{"label":"One"},{"label":"Two"},{"label":"Three","items":[{"label":"Child One"},{"label":"Child Two"}]}}]'></px-tree>
+<px-tree items='[{"label":"One"},{"label":"Two"},{"label":"Three","items":[{"label":"Child One"},{"label":"Child Two"}]}}]'></px-tree>
 ```
 
 <br />
 <hr />
 
-## documentation
+## Documentation
 
 Read the full API and view the demo [here](https://predixdev.github.io/px-tree).
 
@@ -60,7 +62,7 @@ From the component's directory, to start a local server run:
 $ gulp serve
 ```
 
-Navigate to the root of that server (e.g. http://localhost:8080/) in a browser to open the API documentation page, with link to the "Demo" / working examples.
+Navigate to the root of that server (e.g. http://localhost:8080/) in a browser to open the API documentation page and working examples.
 
 ### GE Coding Style Guide
 [GE JS Developer's Guide](https://github.com/GeneralElectric/javascript)
@@ -71,6 +73,3 @@ Navigate to the root of that server (e.g. http://localhost:8080/) in a browser t
 ## Known Issues
 
 Please use [Github Issues](https://github.com/PredixDev/px-tree/issues) to submit any bugs you might find.
-=======
-# px-tree-browser
-Generic tree browser polymer component

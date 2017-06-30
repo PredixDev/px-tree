@@ -11,7 +11,7 @@
 <link rel="import" href="../../px-demo/px-demo-component-snippet.html" />
 <link rel="import" href="../../px-demo/px-demo-code-editor.html" />
 
-<!-- Imports for this componnent -->
+<!-- Imports for this component -->
 <link rel="import" href="../../px-demo/css/px-demo-styles.html" />
 <link rel="import" href="../px-tree.html" />
 
@@ -22,7 +22,7 @@
     <!-- Header -->
     <px-demo-header
       module-name="px-tree"
-      description="This is a generic tree component. This tree is controlled primarily through a JSON structure of branch and leaf nodes.">
+      description="This component provides an expandable and selectable tree. The contents are controlled primarily through a structured object of branch and leaf nodes.">
     </px-demo-header>
 
     <!-- Interactive -->
@@ -86,17 +86,17 @@
     demoProps: {
       items: {
         type: Array,
-        defaultValue: [{"label":"Leaf 0.0"},{"label":"Leaf 0.1"},{"label":"Leaf 0.2"},{"label":"Branch 0.3","items":[{"label":"Leaf 1.0"},{"label":"Branch 1.1","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"}]},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Branch 1.6","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"},{"label":"Leaf 2.9"}]}]},{"label":"Branch 0.4","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Leaf 1.6"},{"label":"Leaf 1.7"},{"label":"Leaf 1.8"}]},{"label":"Leaf 0.5"},{"label":"Branch 0.6","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Branch 1.4","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"}]},{"label":"Leaf 1.5"}]},{"label":"Branch 0.7","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"}]},{"label":"Leaf 0.8"}],
+        defaultValue: [{"label":"Leaf 0.0"},{"label":"Leaf 0.1"},{"label":"Leaf 0.2"},{"label":"Branch 0.3","items":[{"label":"Leaf 1.0"},{"label":"Branch 1.1","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"}]},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Branch 1.6","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"},{"label":"Leaf 2.9"}]}]},{"label":"Branch 0.4","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Leaf 1.6"},{"label":"Leaf 1.7"},{"label":"Leaf 1.8"}]},{"label":"Leaf 0.5"},{"label":"Branch 0.6","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Branch 1.4","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"}]},{"label":"Leaf 1.5"}]},{"label":"Branch 0.7","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"}]},{"label":"Leaf 0.8","icon":"px:exclamation-triangle"}],
         inputType: 'code:JSON'
       },
       multiActive: {
         type: Boolean,
-        defaultValue: true,
+        defaultValue: false,
         inputType: 'toggle'
       },
       multiSelect: {
         type: Boolean,
-        defaultValue: true,
+        defaultValue: false,
         inputType: 'toggle'
       },
       disableBranchSelect: {
