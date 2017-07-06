@@ -24,14 +24,14 @@
                             item="[[subitem]]"
                             keys="[[keys]]"
                             active="[[active]]"
-                            active-path="[[activePath]]"
+                            active-meta="[[activeMeta]]"
                             selected="[[selected]]"
-                            is-active="[[_isItemActive(active, activePath, subitem, multiActive, active.*)]]"
+                            is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
                             is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
                             can-open="[[_hasChildren(item, subitem.items)]]"
                             disable-branch-select="[[disableBranchSelect]]"
                             multi-select="[[multiSelect]]"
-                            multi-active="[[multiActive]]"
+                            multi-activate="[[multiActivate]]"
                             icon="[[icon]]">
               </px-tree-node>
             </template>
@@ -80,14 +80,16 @@ Polymer({
 
     keys: Object,
 
-    multi: Boolean,
+    multiSelect: Boolean,
+
+    multiActivate: Boolean,
 
     icon: String
 
   },
   /**
    * Calculates whether to display the chevron for an expanded node
-   * or a collapsed node given the current activePath.
+   * or a collapsed node given the current active path.
    */
   _getIcon: function(isActive) {
     return isActive ? "px:chevron-down" : "px:chevron-right";

@@ -13,7 +13,7 @@ function runCustomTests(){
     test('Properties and methods are intact', function(){
       assert.typeOf(tree.items,'array');
       assert.typeOf(tree.keys,'object');
-      assert.typeOf(tree.multiActive,'boolean');
+      assert.typeOf(tree.multiActivate,'boolean');
       assert.typeOf(tree.multiSelect,'boolean');
       assert.typeOf(tree.activate,'function');
       assert.typeOf(tree.select,'function');
@@ -23,7 +23,7 @@ function runCustomTests(){
         assert.isTrue(li1.classList.contains('selected'));
         assert.equal(tree.selected, leaf1.item);
         leaf1.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
+        tree.select(null);
         done();
       });
       leaf1.click();
@@ -34,8 +34,8 @@ function runCustomTests(){
         assert.isTrue(li2.classList.contains('active'));
         assert.isTrue(collapse2.opened);
         branch2.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch2.click();
@@ -47,8 +47,8 @@ function runCustomTests(){
           assert.isTrue(li2.classList.contains('active'));
           assert.isTrue(collapse2.opened);
           icon2.removeEventListener('click', handler);
-          tree._clearSelectedAsset();
-          tree._clearActiveAsset();
+          tree.select(null);
+          tree.activate(null);
           done();
         }, 50);
       });
@@ -63,8 +63,8 @@ function runCustomTests(){
         assert.isFalse(li2.classList.contains('active'));
         assert.isFalse(collapse2.opened);
         branch3.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch2.click();
@@ -80,8 +80,8 @@ function runCustomTests(){
         assert.isFalse(li2.classList.contains('active'));
         assert.isFalse(collapse2.opened);
         branch3.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch2.click();
@@ -97,8 +97,8 @@ function runCustomTests(){
         assert.isFalse(li2.classList.contains('active'));
         assert.isFalse(collapse2.opened);
         branch3.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch2.click();
@@ -114,8 +114,8 @@ function runCustomTests(){
         assert.isFalse(li2.classList.contains('active'));
         assert.isFalse(collapse2.opened);
         branch3.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch2.click();
@@ -135,7 +135,7 @@ function runCustomTests(){
       assert.typeOf(tree.selected,'array');
       assert.typeOf(tree.active,'array');
       assert.isTrue(tree.multiSelect);
-      assert.isTrue(tree.multiActive);
+      assert.isTrue(tree.multiActivate);
     });
     test('Deselect a single leaf with Cmd', function(done) {
       var cmdClick = new MouseEvent('click', {"metaKey": true});
@@ -165,7 +165,7 @@ function runCustomTests(){
         assert.isTrue(li1.classList.contains('selected'));
         assert.isTrue(li2.classList.contains('selected'));
         leaf2.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
+        tree.select(null);
         done();
       });
       tree.select(leaf1.item);
@@ -177,7 +177,7 @@ function runCustomTests(){
         assert.isTrue(li1.classList.contains('selected'));
         assert.isTrue(li2.classList.contains('selected'));
         leaf2.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
+        tree.select(null);
         done();
       });
       tree.select(leaf1.item);
@@ -190,7 +190,7 @@ function runCustomTests(){
         assert.isTrue(li2.classList.contains('selected'));
         assert.isTrue(li3.classList.contains('selected'));
         leaf3.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
+        tree.select(null);
         done();
       });
       tree.select(leaf1.item);
@@ -203,7 +203,7 @@ function runCustomTests(){
         assert.isTrue(li2.classList.contains('selected'));
         assert.isTrue(li3.classList.contains('selected'));
         leaf1.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
+        tree.select(null);
         done();
       });
       tree.select(leaf3.item);
@@ -222,8 +222,8 @@ function runCustomTests(){
         assert.isTrue(li1.classList.contains('active'));
         assert.isTrue(collapse1.opened);
         branch1.removeEventListener('click', handler);
-        tree._clearSelectedAsset();
-        tree._clearActiveAsset();
+        tree.select(null);
+        tree.activate(null);
         done();
       });
       branch1.click();

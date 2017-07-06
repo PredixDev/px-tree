@@ -34,14 +34,23 @@
         return item[key];
       },
       /**
-       * Calculates whether the specified item is present in the activePath.
+       * Calculates whether the specified item is present in the active path.
        */
-      _isItemActive: function(active, activePath, item, multiActive) {
-        if(this.multiActive && typeof active === 'object' && Array.isArray(active)) {
-          return active.indexOf(item) > -1;
+      _isItemActive: function(active, activeMeta, item, multiActivate) {
+        if(this.multiActivate && typeof active === 'object' && Array.isArray(active)) {
+          var found = false,
+              length = activeMeta.length,
+              i;
+          for(i=0; i<length; i++) {
+            if (activeMeta[i].path.indexOf(item) > -1) {
+              found = true;
+              break;
+            }
+          }
+          return found;
         }
         else {
-          return activePath && activePath.indexOf(item) > -1;
+          return activeMeta && activeMeta.path && activeMeta.path.indexOf(item) > -1;
         }
       },
       /**

@@ -41,7 +41,7 @@
         <px-tree
           items="{{props.items.value}}"
           multi-select="{{props.multiSelect.value}}"
-          multi-active="{{props.multiActive.value}}"
+          multi-activate="{{props.multiActivate.value}}"
           disable-branch-select="{{props.disableBranchSelect.value}}">
         </px-tree>
       </px-demo-component>
@@ -54,7 +54,7 @@
     </px-demo-interactive>
 
     <!-- API Viewer -->
-    <px-demo-api-viewer source="px-tree" hide='["active","activeChildren","activeParent","activePath","activeRoute","activeSiblings","selected","selectedChildren","selectedParent","selectedPath","selectedRoute","selectedSiblings"]'></px-demo-api-viewer>
+    <px-demo-api-viewer source="px-tree"></px-demo-api-viewer>
 
     <!-- Footer -->
     <px-demo-footer></px-demo-footer>
@@ -89,7 +89,7 @@
         defaultValue: [{"label":"Leaf 0.0"},{"label":"Leaf 0.1"},{"label":"Leaf 0.2"},{"label":"Branch 0.3","items":[{"label":"Leaf 1.0"},{"label":"Branch 1.1","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"}]},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Branch 1.6","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"},{"label":"Leaf 2.7"},{"label":"Leaf 2.8"},{"label":"Leaf 2.9"}]}]},{"label":"Branch 0.4","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"},{"label":"Leaf 1.6"},{"label":"Leaf 1.7"},{"label":"Leaf 1.8"}]},{"label":"Leaf 0.5"},{"label":"Branch 0.6","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Leaf 1.3"},{"label":"Branch 1.4","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"}]},{"label":"Leaf 1.5"}]},{"label":"Branch 0.7","items":[{"label":"Leaf 1.0"},{"label":"Leaf 1.1"},{"label":"Leaf 1.2"},{"label":"Branch 1.3","items":[{"label":"Leaf 2.0"},{"label":"Leaf 2.1"},{"label":"Leaf 2.2"},{"label":"Leaf 2.3"},{"label":"Leaf 2.4"},{"label":"Leaf 2.5"},{"label":"Leaf 2.6"}]},{"label":"Leaf 1.4"},{"label":"Leaf 1.5"}]},{"label":"Leaf 0.8","icon":"px:exclamation-triangle"}],
         inputType: 'code:JSON'
       },
-      multiActive: {
+      multiActivate: {
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
