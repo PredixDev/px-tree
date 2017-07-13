@@ -7,6 +7,7 @@
 <link rel="import" href="px-tree-behavior.html"/>
 
 <!--
+#### **Note:** Be sure to refer to the Behavior APIs at the bottom of the screen, as several additional important properties and methods are available as a result. Then use the return link in the middle of the page, or refresh your browser, to return to this main page.
 
 ### Usage
 ```
@@ -121,23 +122,22 @@ Polymer({
   _handleNodeTapped: function(e) {
     const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
     if(isBranch && !isActive) {
-      this.fire('px-app-asset-should-be-activated', {'item' : item});
+      this.activate(item);
     }
     if(isBranch && isActive) {
       if(!this.multiActivate && this._assetGraph.getNodeInfo(item).parent) {
-        this.fire('px-app-asset-should-be-activated', {'item' : this._assetGraph.getNodeInfo(item).parent});
+        this.activate(this._assetGraph.getNodeInfo(item).parent);
       }
       else {
-        this.fire('px-app-asset-should-be-deactivated', {'item' : item});
+        this.deactivate(item);
       }
     }
     if(isBranch && this.disableBranchSelect || isIcon) return;
     if(isSelected && (ctrl || shift)) {
-      this.fire('px-app-asset-should-be-deselected', {'item' : item});
+      this.deselect(item);
       return;
     }
     if(!ctrl && !shift) {
-      // this.fire('px-app-asset-should-be-selected', null);
       this.select(null);
     }
     if(this.multiSelect && shift) {
@@ -155,7 +155,7 @@ Polymer({
       }
     }
     else {
-      this.fire('px-app-asset-should-be-selected', {'item' : item});
+      this.select(item);
     }
   }
 
