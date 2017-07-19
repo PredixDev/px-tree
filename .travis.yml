@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 dist: trusty
 language: node_js
 node_js:
@@ -14,7 +14,7 @@ addons:
     packages:
     - google-chrome-stable
 before_script:
-- npm install web-component-tester
+- npm install web-component-tester@^5.0.0
 - npm install bower
 - export PATH=$PWD/node_modules/.bin:$PATH
 - bower install
@@ -22,3 +22,13 @@ script:
 - xvfb-run wct --skip-plugin sauce
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct --plugin sauce --skip-plugin
   local; fi
+after_success:
+- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then openssl aes-256-cbc -k "$DEPLOYSECRET"
+  -in deploy.enc -out deploy_key -d; fi
+- cd $TRAVIS_BUILD_DIR/scripts
+- chmod 755 ghp.sh
+- ./ghp.sh
+env:
+  global:
+  - secure: PMP3yhbXgdqZtsTd/h5qUH1hS5+0UmGhcclipz2efi00ets09egzKwHVlEZajLqbwV+TJKqOPSaQzLTAMd2X3Sdh8GGhTO7NPYm2dFAz+bimu/zIqaZ54Q0gtRrMwWELOn8lX3FyYexP2HISDtICyO0/vcvbGQv6bPu0NHPX5PaERrVcvhfILwjoGXCNqwcErHzHdZUq9DhHfhBXN15hbj7/eoCr33mvcqzmLAx+IM8dByxE+nyWHT9M/vJ5ASHuRATQegu3dtSrjAtM7dXVbKISwCWQQHGFu1puiOm6RvIVmNCINmdyV7kkKWdEeOE2BXczJ9B5QeCRtzY+6Nn7Ox+AOdwpyeROQqy4xgX72aTyNLmHHaOyBhV0Jr20F+AIDi8sWZLq+aIkAINXxv4jj1MtUOsnsqbZ8TLgbfb1UeJZImptePOjPQCuswRefNhFjA6eZbGUn2+wQnU6x8sr6t1MLKIt+RYuvE1zeTs7DujPFkAT2r6izXNBu0hLSYehp6PDGQGIFYe7AQVue+eEC4xHkwwAnptodnWi99LwDk4e6+bBqeifyulKqju4o2qi+XzhwY3jsJ6/Ym1+F6GPocPvKyQ0J0W6nfvxJYgWUH6T+9tJyDoJghFtVkyiWnTC1m+IH/2YBw5XDJVNA7/DU2VzFotnUYaNySsyl1v/TZ0=
+  - secure: ieygK2mSbKCspitZRhqCRhaJRjoEfad6k66BMpe/vSWp8lEKOj9iKJQpXPV7Cx7eNL6WbMSSze3vxif4SdoWHSmQC+V9wPliop6BAo+Jkd7eYWJ/mG8WTGy6F8W+m6EqA7TLvHOnKNUB0y4Oa27egi6gDv11tCpEY2OQMhI/+cT6aB4GdxT2aPaREhriXpNseMyEyYJghN1f01IwDKPI5TqyilsC64Ll0UU97TQ/v9IbgjdPQERVSLTZcslz8jUIIihalzM1T/3fGYxujX4jzqQPiKQtrw3uAVRYp9VWJGE/pXwAqKrLLMTaIqE5v7CCK3cLadYpicYVr30BgiJmiVJn9VZNd/3WUgKwj+rwhbLA31HR9c3KWOkulRhXlym3iesBOQYYRNaSX/F2cv+7RFsxWqnL+6smRoBhA0oPXSnP1UwKTYGIMel0U5WlA/INUQLrTA+Yez09aUz0RV7eZ6ikhbWVfyFpw/iBu0azMO0yW16WmMl2uX04Giv7HEYZB6Bmrzfh7h4PXwdjOm27DyeeAVGU/o63kjiyj2qWrIY+JxnstIR3dCsMKK93lYAwbHuPvWWbuHQTsPjrHlk7Rg6M3XSURA0LODr4q7YJDkdOKHzmmFp/DO51OFT+sSQ1gCWtq83D/rydYPAFYTzJWiEf40uM5j5LEHFKhaA36LM=
