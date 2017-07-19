@@ -25,12 +25,15 @@
   ],
   "dependencies": {
     "polymer": "^1.9.0",
-    "px-polymer-font-awesome": "^2.0.0",
-    "px-app-helpers": "https://github.com/PredixDev/px-app-helpers.git#^0.0.2",
+    "px-icon-set": "^2.0.0",
+    "px-app-helpers": "^1.0.0",
     "iron-collapse": "^2.0.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
     "px-demo": "^2.0.0"
+  },
+  "resolutions": {
+    "webcomponentsjs": "^0.7.24"
   }
 }

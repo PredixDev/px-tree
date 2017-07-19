@@ -11,7 +11,7 @@
 
 ### Usage
 ```
-  <px-tree items='[{"label":"Label","icon":"px:aircraft","items":[{"label":"Child"}]}]'></px-tree>
+  <px-tree items='[{"label":"Label","icon":"px-utl:confirmed","items":[{"label":"Child"}]}]'></px-tree>
 ```
 
 ### Styling
@@ -125,8 +125,8 @@ Polymer({
       this.activate(item);
     }
     if(isBranch && isActive) {
-      if(!this.multiActivate && this._assetGraph.getNodeInfo(item).parent) {
-        this.activate(this._assetGraph.getNodeInfo(item).parent);
+      if(!this.multiActivate && this._assetGraph.getInfo(item).parent) {
+        this.activate(this._assetGraph.getInfo(item).parent);
       }
       else {
         this.deactivate(item);
