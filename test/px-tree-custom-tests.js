@@ -5,7 +5,7 @@ function runCustomTests(){
         li1 = leaf1.$$('li'),
         branch2 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[1],
         li2 = branch2.$$('li'),
-        icon2 = branch2.$$('iron-icon'),
+        icon2 = branch2.$$('px-icon'),
         collapse2 = branch2.$$('iron-collapse'),
         branch3 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[2],
         li3 = branch3.$$('li'),

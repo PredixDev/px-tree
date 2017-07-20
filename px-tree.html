@@ -141,15 +141,15 @@ Polymer({
       this.select(null);
     }
     if(this.multiSelect && shift) {
-      var index1 = this._assetGraph.getNodeInfo(item).siblings.indexOf(item),
-          index2 = this._assetGraph.getNodeInfo(item).siblings.indexOf(this._lastSelection.item);
+      var index1 = this._assetGraph.getInfo(item).siblings.indexOf(item),
+          index2 = this._assetGraph.getInfo(item).siblings.indexOf(this._lastSelection.item);
       if(index2 > -1 && index2 < index1) {
-        this._assetGraph.getNodeInfo(item).siblings.slice(index2+1, index1+1).forEach(function(item) {
+        this._assetGraph.getInfo(item).siblings.slice(index2+1, index1+1).forEach(function(item) {
           this.select(item);
         }.bind(this));
       }
       else if(index2 > -1) {
-        this._assetGraph.getNodeInfo(item).siblings.slice(index1, index2).forEach(function(item) {
+        this._assetGraph.getInfo(item).siblings.slice(index1, index2).forEach(function(item) {
           this.select(item);
         }.bind(this));
       }

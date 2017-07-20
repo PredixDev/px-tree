@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-icon-set/px-icon-set.html"/>
+<link rel="import" href="../px-icon-set/px-icon.html"/>
 <link rel="import" href="../iron-collapse/iron-collapse.html"/>
 <link rel="import" href="px-tree-behavior.html"/>
 <link rel="import" href="css/px-tree-styles.html">
@@ -184,7 +185,7 @@ Polymer({
     var path = Polymer.dom(evt).path,
         shift = Polymer.dom(evt).event.detail.sourceEvent.shiftKey,
         ctrl = Polymer.dom(evt).event.detail.sourceEvent.ctrlKey || Polymer.dom(evt).event.detail.sourceEvent.metaKey,
-        isIcon = path[0].nodeName === 'IRON-ICON';
+        isIcon = path[0].nodeName === 'PX-ICON';
 
     this.fire('px-tree-node-tapped', {shift, ctrl, item:this.item, isBranch: this.canOpen, isActive:this.isActive, isSelected:this.isSelected, isIcon}, {cancelable:true});
   }
