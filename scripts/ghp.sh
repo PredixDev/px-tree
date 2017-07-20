@@ -115,7 +115,8 @@ git checkout --orphan $TARGET_BRANCH
 
 git add -A . > /dev/null
 echo "git added boom"
-git commit -m "${GIT_COMMIT_MESSAGE}"
+git commit -m "${GIT_COMMIT_MESSAGE}" --quiet
+echo "git commit boom"
 
 # Set git credentials (defined in settings above)
 git config user.name ${GIT_USER_NAME}
