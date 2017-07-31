@@ -20,7 +20,7 @@
         <iron-collapse id="collapse" opened$="[[isActive]]">
           <div class="collapse-content">
             <template is="dom-repeat" items="[[items]]" as="subitem">
-              <px-tree-node label="[[subitem.label]]"
+              <px-tree-node label="[[_getItemProp(subitem, keys.label)]]"
                             items="[[_getItemProp(subitem, keys.children)]]"
                             item="[[subitem]]"
                             keys="[[keys]]"
@@ -29,11 +29,11 @@
                             selected="[[selected]]"
                             is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
                             is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
-                            can-open="[[_hasChildren(item, subitem.items)]]"
+                            can-open="[[_hasChildren(subitem, keys.children)]]"
                             disable-branch-select="[[disableBranchSelect]]"
                             multi-select="[[multiSelect]]"
                             multi-activate="[[multiActivate]]"
-                            icon="[[icon]]">
+                            icon="[[_getItemProp(subitem, keys.icon)]]">
               </px-tree-node>
             </template>
           </div>

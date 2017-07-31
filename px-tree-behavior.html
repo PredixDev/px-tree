@@ -22,8 +22,8 @@
       /**
        * Determines if an item has children nodes.
        */
-      _hasChildren: function(item) {
-        return (item.items && item.items.length > 0) ? true : false;
+      _hasChildren: function(item, key) {
+        return (item["items"] && item["items"].length > 0) ? true : false;
       },
       /**
        * Fetches an item's property at the configured key. Used to dynamically

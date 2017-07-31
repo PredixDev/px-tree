@@ -36,7 +36,7 @@ Custom property | Description
 
     <ul>
       <template is="dom-repeat" items="[[items]]">
-        <px-tree-node label="[[item.label]]"
+        <px-tree-node label="[[_getItemProp(item, keys.label)]]"
                       items="[[_getItemProp(item, keys.children)]]"
                       item="[[item]]"
                       keys="[[keys]]"
@@ -45,7 +45,7 @@ Custom property | Description
                       active="[[active]]"
                       active-meta="[[activeMeta]]"
                       selected="[[selected]]"
-                      can-open="[[_hasChildren(item, item.items)]]"
+                      can-open="[[_hasChildren(item, keys.children)]]"
                       disable-branch-select="[[disableBranchSelect]]"
                       multi-select="[[multiSelect]]"
                       multi-activate="[[multiActivate]]"
@@ -158,6 +158,5 @@ Polymer({
       this.select(item);
     }
   }
-
 });
 </script>
