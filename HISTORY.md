@@ -1,3 +1,7 @@
+v1.0.3
+==================
+* Fix subcomponent demo
+
 v1.0.2
 ==================
 * Dynamicaly pass all keys down; removed hard coded obj keys.
