@@ -1,9 +1,11 @@
 {
   "verbose": false,
+  "compile": "auto",
   "plugins": {
     "local": {
       "browsers": [
-        "chrome"
+        "chrome",
+        "firefox"
       ]
     },
     "sauce": {
