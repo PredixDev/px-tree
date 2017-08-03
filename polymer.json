@@ -8,7 +8,7 @@
     "favicon.ico",
     "bower.json",
     "bower_components/px-demo/monogram-wdmk.png",
-    "bower_components/px-demo/px-demo-theme-switcher.html",
+    "bower_components/px-demo/*.html",
     "bower_components/px-dark-theme/*.html",
     "bower_components/px-dark-demo-theme/*.html",
     "bower_components/px-typography-design/type/*",
