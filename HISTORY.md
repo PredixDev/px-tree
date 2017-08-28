@@ -1,3 +1,7 @@
+v2.0.0
+==================
+* merge #2
+
 v1.0.4
 ==================
 * Fix for sub-component demos to refer to shared API docs.
