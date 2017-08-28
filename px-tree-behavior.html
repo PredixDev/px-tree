@@ -20,10 +20,18 @@
         }
       },
       /**
-       * Determines if an item has children nodes.
+       * Determines if an item has children nodes from the asset graph.
        */
-      _hasChildren: function(item, key) {
-        return (item[key] && item[key].length > 0) ? true : false;
+      _hasChildren: function(item, assetGraph) {
+        if (!assetGraph) return;
+        return assetGraph.hasChildren(item);
+      },
+      /**
+       * Fetches the item's child nodes from the asset graph.
+       */
+      _getChildren: function(item, assetGraph) {
+        if (!assetGraph) return;
+        return assetGraph.getChildren(item);
       },
       /**
        * Fetches an item's property at the configured key. Used to dynamically

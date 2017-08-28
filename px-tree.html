@@ -35,9 +35,9 @@ Custom property | Description
     <style include="px-tree-styles"></style>
 
     <ul>
-      <template is="dom-repeat" items="[[items]]">
+      <template is="dom-repeat" items="[[__rootItems]]">
         <px-tree-node label="[[_getItemProp(item, keys.label)]]"
-                      items="[[_getItemProp(item, keys.children)]]"
+                      items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]"
                       item="[[item]]"
                       keys="[[keys]]"
                       is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
@@ -45,11 +45,13 @@ Custom property | Description
                       active="[[active]]"
                       active-meta="[[activeMeta]]"
                       selected="[[selected]]"
-                      can-open="[[_hasChildren(item, keys.children)]]"
+                      can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]"
                       disable-branch-select="[[disableBranchSelect]]"
                       multi-select="[[multiSelect]]"
                       multi-activate="[[multiActivate]]"
-                      icon="[[_getItemProp(item, keys.icon)]]">
+                      icon="[[_getItemProp(item, keys.icon)]]"
+                      children-updated="[[_childrenUpdated]]"
+                      asset-graph="[[_assetGraph]]">
         </px-tree-node>
       </template>
     </ul>
@@ -70,7 +72,8 @@ Polymer({
   ],
 
   listeners: {
-    'px-tree-node-tapped' : '_handleNodeTapped'
+    'px-tree-node-tapped' : '_handleNodeTapped',
+    'px-app-asset-children-updated' : '_handleChildrenUpdated'
   },
 
   properties: {
@@ -115,10 +118,21 @@ Polymer({
     disableBranchSelect: {
       type: Boolean,
       value: false
+    },
+    /**
+     * Internal boolean that is flipped when children are updated in the asset
+     * graph, triggering data binding to show them in the tree.
+     */
+    _childrenUpdated: {
+      type: Boolean,
+      value: null
     }
-
   },
 
+  _handleChildrenUpdated: function(e) {
+    this._childrenUpdated = true;
+    this._childrenUpdated = false;
+  },
   _handleNodeTapped: function(e) {
     const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
     if(isBranch && !isActive) {
