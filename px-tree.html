@@ -11,7 +11,7 @@
 
 ### Usage
 ```
-  <px-tree items='[{"label":"Label","icon":"px-utl:confirmed","items":[{"label":"Child"}]}]'></px-tree>
+  <px-tree items='[{"label":"Label","id":"label001","icon":"px-utl:confirmed","children":[{"label":"Child","id":"child001"}]}]'></px-tree>
 ```
 
 ### Styling
@@ -77,21 +77,6 @@ Polymer({
   },
 
   properties: {
-    /**
-     * Changes the item properties (keys) that will be used internally to find
-     * each item's unique id, label, children list, and icon.
-     */
-    keys: {
-      type: Object,
-      value: function() {
-        return {
-          'id' : 'label',
-          'label' : 'label',
-          'children' : 'items',
-          'icon' : 'icon'
-        }
-      }
-    },
     /**
      * If set to true, multiple nodes can be selected at the same time in the tree
      * by using the shift key (for selecting a range) or the ctrl/cmd key (for selecting individual nodes).
