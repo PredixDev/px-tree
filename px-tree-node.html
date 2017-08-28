@@ -21,7 +21,7 @@
           <div class="collapse-content">
             <template is="dom-repeat" items="[[items]]" as="subitem">
               <px-tree-node label="[[_getItemProp(subitem, keys.label)]]"
-                            items="[[_getItemProp(subitem, keys.children)]]"
+                            items="[[_getChildren(subitem, assetGraph, childrenUpdated)]]"
                             item="[[subitem]]"
                             keys="[[keys]]"
                             active="[[active]]"
@@ -29,11 +29,12 @@
                             selected="[[selected]]"
                             is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
                             is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
-                            can-open="[[_hasChildren(subitem, keys.children)]]"
+                            can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]"
                             disable-branch-select="[[disableBranchSelect]]"
                             multi-select="[[multiSelect]]"
                             multi-activate="[[multiActivate]]"
-                            icon="[[_getItemProp(subitem, keys.icon)]]">
+                            icon="[[_getItemProp(subitem, keys.icon)]]"
+                            children-updated="[[childrenUpdated]]">
               </px-tree-node>
             </template>
           </div>
@@ -153,8 +154,16 @@ Polymer({
     icon: {
       type: String,
       value: ''
-    }
+    },
 
+    /**
+     * Internal boolean that is flipped when children are updated in the asset
+     * graph, triggering data binding to show them in the tree.
+     */
+    childrenUpdated: {
+      type: Boolean,
+      value: null
+    }
   },
   /**
    * Calculates whether to display the chevron for an expanded node
