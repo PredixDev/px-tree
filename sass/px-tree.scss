@@ -12,7 +12,7 @@ ul, li {
   list-style: none;
   padding: 0;
   margin: 0;
-  line-height: 1.8rem;
+  line-height: var(--px-tree-node-height,1.8rem);
   user-select: none;
   cursor: pointer;
 }
