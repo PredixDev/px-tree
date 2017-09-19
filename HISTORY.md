@@ -1,3 +1,7 @@
+v2.0.2
+==================
+* fix recursion
+
 v2.0.1
 ==================
 * update documentation

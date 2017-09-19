@@ -79,6 +79,11 @@
             {
               configName: "Default",
               configReset: true
+            },
+            {
+              configName: "Deep nested",
+              items: [{ "label": "Root", items: [ { "label": "Branch 1", items: [ { "label": "Branch 2", items: [ { "label": "Branch 3", items: [ { "label": "Branch 4", items: [ { "label": "Branch 5" } ] } ] } ] } ] } ] } ],
+              keys: {'id' : 'label', 'label' : 'label', 'children' : 'items', 'icon' : 'icon'}
             }
           ];
         }
