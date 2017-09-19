@@ -1,3 +1,7 @@
+v2.0.3
+==================
+* remove IE and S9 from WCT
+
 v2.0.2
 ==================
 * fix recursion
