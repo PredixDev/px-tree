@@ -27,7 +27,7 @@
   "dependencies": {
     "polymer": "^1.9.0",
     "px-icon-set": "^2.0.0",
-    "px-app-helpers": "^1.0.0",
+    "px-app-helpers": "^1.4.0",
     "iron-collapse": "^2.0.0"
   },
   "devDependencies": {

@@ -120,6 +120,8 @@ Polymer({
   },
   _handleNodeTapped: function(e) {
     const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
+    const isSelectable = this._assetGraph.isSelectable(item);
+
     if(isBranch && !isActive) {
       this.activate(item);
     }
@@ -132,6 +134,7 @@ Polymer({
       }
     }
     if(isBranch && this.disableBranchSelect || isIcon) return;
+    if (!isSelectable) return;
     if(isSelected && (ctrl || shift)) {
       this.deselect(item);
       return;
