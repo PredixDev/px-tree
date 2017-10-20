@@ -131,7 +131,7 @@ Polymer({
         this.deactivate(item);
       }
     }
-    if(isBranch && this.disableBranchSelect || isIcon) return;
+    if(isBranch && this.disableBranchSelect || isIcon || !this._assetGraph.isSelectable(item)) return;
     if(isSelected && (ctrl || shift)) {
       this.deselect(item);
       return;

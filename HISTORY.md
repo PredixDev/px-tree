@@ -1,3 +1,7 @@
+v2.0.4
+==================
+* respect isSelectable
+
 v2.0.3
 ==================
 * remove IE and S9 from WCT

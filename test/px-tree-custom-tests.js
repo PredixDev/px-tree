@@ -9,7 +9,9 @@ function runCustomTests(){
         collapse2 = branch2.$$('iron-collapse'),
         branch3 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[2],
         li3 = branch3.$$('li'),
-        collapse3 = branch3.$$('iron-collapse');
+        collapse3 = branch3.$$('iron-collapse'),
+        leaf4 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[3],
+        li4 = leaf4.$$('li');
     test('Properties and methods are intact', function(){
       assert.typeOf(tree.items,'array');
       assert.typeOf(tree.keys,'object');
@@ -120,6 +122,16 @@ function runCustomTests(){
       });
       branch2.click();
       branch3.dispatchEvent(shiftClick);
+    });
+    test('Clicking on a node with isSelectable false does nothing', function(done) {
+      leaf4.addEventListener('click', function handler(e) {
+        assert.isFalse(li4.classList.contains('selected'));
+        leaf4.removeEventListener('click', handler);
+        tree.select(null);
+        tree.activate(null);
+        done();
+      });
+      leaf4.click();
     });
   });
 
