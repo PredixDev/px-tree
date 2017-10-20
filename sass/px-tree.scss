@@ -25,9 +25,15 @@ ul, li {
     color: var(--px-tree-text-color--selected, white);
     background-color: var(--px-tree-background-color--selected, gray);
   }
+  &.disabled {
+    color: var(--px-tree-text-color--disabled, gray);
+  }
 }
 .tree__leaf {
   padding-left: 1.75rem;
+  &.disabled {
+    cursor: not-allowed;
+  }
 }
 .chevron, .icon {
   --iron-icon-width: 1rem;

@@ -1,3 +1,7 @@
+v2.0.5
+==================
+* add styles for disabled nodes
+
 v2.0.4
 ==================
 * respect isSelectable

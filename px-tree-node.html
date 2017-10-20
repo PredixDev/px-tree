@@ -10,7 +10,7 @@
     <style include="px-tree-styles"></style>
 
       <template is="dom-if" if="[[canOpen]]">
-        <li class$="tree__branch [[_getClass(isActive, isSelected)]]">
+        <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
@@ -42,7 +42,7 @@
         </iron-collapse>
       </template>
       <template is="dom-if" if="[[!canOpen]]">
-        <li class$="tree__leaf [[_getClass(isActive, isSelected)]]">
+        <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
@@ -176,13 +176,16 @@ Polymer({
   /**
    * Determines which class (active/selected/both) should be present on the node.
    */
-  _getClass: function(isActive, isSelected) {
+  _getClass: function(isActive, isSelected, item, assetGraph) {
     var classList = [];
     if(isActive) {
       classList.push('active');
     }
     if(isSelected) {
       classList.push('selected');
+    }
+    if(!assetGraph.isSelectable(item)) {
+      classList.push('disabled');
     }
     return classList.join(' ');
   },
