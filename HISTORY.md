@@ -1,3 +1,7 @@
+v2.0.6
+==================
+* remove cursor styling
+
 v2.0.5
 ==================
 * add styles for disabled nodes
