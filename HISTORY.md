@@ -1,3 +1,7 @@
+v2.0.7
+==================
+* build css
+
 v2.0.6
 ==================
 * remove cursor styling
