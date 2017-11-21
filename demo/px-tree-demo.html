@@ -29,16 +29,16 @@
     <!-- Interactive -->
     <px-demo-interactive>
       <!-- Configs -->
-      <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+      <px-demo-configs slot="px-demo-configs" configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
+      <px-demo-props slot="px-demo-props" props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
 
-      <px-demo-code-editor props="{{props}}" config="[[chosenConfig]]"></px-demo-code-editor>
+      <px-demo-code-editor slot="px-demo-code-editor" props="{{props}}" config="[[chosenConfig]]"></px-demo-code-editor>
 
 
       <!-- Component ---------------------------------------------------------->
-      <px-demo-component style="flex:1 1 100%;">
+      <px-demo-component slot="px-demo-component" style="flex:1 1 100%;">
         <px-tree
           items="{{props.items.value}}"
           multi-select="{{props.multiSelect.value}}"
@@ -50,6 +50,7 @@
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
+        slot="px-demo-component-snippet"
         element-properties="{{props}}"
         element-name="px-tree">
       </px-demo-component-snippet>
