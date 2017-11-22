@@ -7,7 +7,7 @@
 
     <!-- COMMON TEST IMPORTS -->
     <!-- Loads webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <!-- Load web-component-tester's browser.js test runner -->
     <script src="../../web-component-tester/browser.js"></script>
     <!-- Load Polymer -->
@@ -25,6 +25,9 @@
     <!-- Load tests -->
     <script src="px-tree-base-tests.js"></script>
     <script src="px-tree-custom-tests.js"></script>
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style"></style>
+    </custom-style>
   </head>
 
   <body>
