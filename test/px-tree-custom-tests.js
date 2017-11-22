@@ -14,19 +14,19 @@ suite('single active/select', function(){
       li4;
 
   suiteSetup(done => {
-    tree =  Polymer.dom(document).querySelector('#px-tree');
-    leaf1 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[0];
-    li1 = leaf1.$$('li');
-    branch2 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[1];
-    li2 = branch2.$$('li');
-    icon2 = branch2.$$('px-icon');
-    collapse2 = branch2.$$('iron-collapse');
-    branch3 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[2];
-    li3 = branch3.$$('li');
-    collapse3 = branch3.$$('iron-collapse');
-    leaf4 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[3];
-    li4 = leaf4.$$('li');
+    tree =  fixture("px-tree-fixture");
     flush(()=>{
+      leaf1 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[0];
+      li1 = leaf1.$$('li');
+      branch2 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[1];
+      li2 = branch2.$$('li');
+      icon2 = branch2.$$('px-icon');
+      collapse2 = branch2.$$('iron-collapse');
+      branch3 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[2];
+      li3 = branch3.$$('li');
+      collapse3 = branch3.$$('iron-collapse');
+      leaf4 = Polymer.dom(tree.root).querySelectorAll('px-tree-node')[3];
+      li4 = leaf4.$$('li');
       done();
     })
   });
