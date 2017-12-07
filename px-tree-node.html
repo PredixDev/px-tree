@@ -177,17 +177,19 @@ Polymer({
    * Determines which class (active/selected/both) should be present on the node.
    */
   _getClass: function(isActive, isSelected, item, assetGraph) {
-    var classList = [];
-    if(isActive) {
-      classList.push('active');
+    if (! (isActive === undefined || isSelected === undefined || item === undefined || assetGraph === undefined)) {
+      var classList = [];
+      if(isActive) {
+        classList.push('active');
+      }
+      if(isSelected) {
+        classList.push('selected');
+      }
+      if(!assetGraph.isSelectable(item)) {
+        classList.push('disabled');
+      }
+      return classList.join(' ');
     }
-    if(isSelected) {
-      classList.push('selected');
-    }
-    if(!assetGraph.isSelectable(item)) {
-      classList.push('disabled');
-    }
-    return classList.join(' ');
   },
   /**
    * Event handler for tap events. Determines whether a node should be

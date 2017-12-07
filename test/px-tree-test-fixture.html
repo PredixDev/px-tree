@@ -7,7 +7,7 @@
 
     <!-- COMMON TEST IMPORTS -->
     <!-- Loads webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <!-- Load web-component-tester's browser.js test runner -->
     <script src="../../web-component-tester/browser.js"></script>
     <!-- Load Polymer -->
@@ -15,25 +15,56 @@
     <!-- Retain this link for px-theme.html -->
     <!-- px-theme is needed for WCT to run without errors -->
     <link rel="import" href="../../px-theme/px-theme-styles.html"/>
-    <!-- Load test helpers -->
-    <script src="../../test-fixture/test-fixture-mocha.js"></script>
-    <link rel="import" href="../../test-fixture/test-fixture.html"/>
-
-    <!-- LOCAL IMPORTS -->
     <!-- Load local components -->
     <link rel="import" href="../px-tree.html" />
     <!-- Load tests -->
-    <script src="px-tree-base-tests.js"></script>
     <script src="px-tree-custom-tests.js"></script>
+    <script>
+      (function (window) {
+        try {
+          new MouseEvent('test');
+          return false; // No need to polyfill
+        } catch (e) {
+          // Need to polyfill - fall through
+        }
+
+        // Polyfills DOM4 MouseEvent
+
+        var MouseEvent = function (eventType, params) {
+          params = params || { bubbles: false, cancelable: false, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false };
+          var mouseEvent = document.createEvent('MouseEvent');
+          mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, 0, null);
+
+          return mouseEvent;
+        }
+
+        MouseEvent.prototype = Event.prototype;
+
+        window.MouseEvent = MouseEvent;
+      })(window);
+    </script>
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style"></style>
+    </custom-style>
   </head>
 
   <body>
-    <h3>Web Component Test : Fixture for px-tree</h3>
-    <span>Regular tree:</span>
-    <px-tree id="px-tree" items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Branch2","id":"Branch2","children":[{"label":"Leaf2.1","id":"Leaf2.1"}]},{"label":"Branch3","id":"Branch3","children":[{"label":"Leaf3.1","id":"Leaf3.1"}]},{"label":"Leaf4","id":"Leaf4","isSelectable":false}]'></px-tree>
-    <span>Tree with multi-select and multi-active</span>
-    <px-tree id="px-multi-tree" items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Leaf2","id":"Leaf2"},{"label":"Leaf3","id":"Leaf3"},{"label":"Branch4","id":"Branch4","children":[{"label":"Leaf4.1","id":"Leaf4.1"}]},{"label":"Branch5","id":"Branch5","children":[{"label":"Leaf5.1","id":"Leaf5.1"}]}]' multi-activate multi-select></px-tree>
-    <span>Tree with disable-branch-select</span>
-    <px-tree id="px-disable-tree" items='[{"label":"Branch1","id":"Branch1","children":[{"label":"Leaf1.1","id":"Leaf1.1"}]}]' disable-branch-select></px-tree>
+    <test-fixture id="px-tree-fixture">
+      <template>
+        <px-tree items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Branch2","id":"Branch2","children":[{"label":"Leaf2.1","id":"Leaf2.1"}]},{"label":"Branch3","id":"Branch3","children":[{"label":"Leaf3.1","id":"Leaf3.1"}]},{"label":"Leaf4","id":"Leaf4","isSelectable":false}]'></px-tree>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="px-multi-tree">
+      <template>
+        <px-tree items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Leaf2","id":"Leaf2"},{"label":"Leaf3","id":"Leaf3"},{"label":"Branch4","id":"Branch4","children":[{"label":"Leaf4.1","id":"Leaf4.1"}]},{"label":"Branch5","id":"Branch5","children":[{"label":"Leaf5.1","id":"Leaf5.1"}]}]' multi-activate multi-select></px-tree>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="px-disable-tree">
+      <template>
+        <px-tree items='[{"label":"Branch1","id":"Branch1","children":[{"label":"Leaf1.1","id":"Leaf1.1"}]}]' disable-branch-select></px-tree>
+      </template>
+    </test-fixture>
   </body>
 </html>

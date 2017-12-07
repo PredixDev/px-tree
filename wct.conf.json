@@ -35,6 +35,6 @@
     }
   },
   "suites": [
-    "test/px-tree-test-fixture.html"
+    "test/index.html"
   ]
 }
