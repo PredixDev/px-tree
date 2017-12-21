@@ -1,5 +1,9 @@
 v2.1.0
 ==================
+* remove unapplicable comments from docs
+
+v2.1.0
+==================
 * Polymer 1.x/2.x hybrid element support
 
 v2.0.8

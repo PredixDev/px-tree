@@ -420,7 +420,7 @@
               "column": 2
             },
             "end": {
-              "line": 190,
+              "line": 192,
               "column": 3
             }
           },
@@ -446,11 +446,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 195,
+              "line": 197,
               "column": 2
             },
             "end": {
-              "line": 203,
+              "line": 205,
               "column": 3
             }
           },
@@ -471,7 +471,7 @@
           "column": 8
         },
         "end": {
-          "line": 204,
+          "line": 206,
           "column": 1
         }
       },
@@ -682,7 +682,7 @@
       "tagname": "px-tree-node"
     },
     {
-      "description": "#### **Note:** Be sure to refer to the Behavior APIs at the bottom of the screen, as several additional important properties and methods are available as a result. Then use the return link in the middle of the page, or refresh your browser, to return to this main page.\n\n### Usage\n```\n  <px-tree items='[{\"label\":\"Label\",\"id\":\"label001\",\"icon\":\"px-utl:confirmed\",\"children\":[{\"label\":\"Child\",\"id\":\"child001\"}]}]'></px-tree>\n```\n\n### Styling\nThe following custom properties are available for styling:\n\nCustom property | Description\n:----------------|:-------------\n`--px-tree-text-color--hover` | Text color for hovered tree nodes\n`--px-tree-background-color--hover` | Background color for hovered tree nodes\n`--px-tree-text-color--selected` | Text color for selected tree nodes\n`--px-tree-background-color--selected` | Background color for selected tree nodes\n`--px-tree-text-color--disabled` | Text color for non-selectable / disabled nodes",
+      "description": "### Usage\n```\n  <px-tree items='[{\"label\":\"Label\",\"id\":\"label001\",\"icon\":\"px-utl:confirmed\",\"children\":[{\"label\":\"Child\",\"id\":\"child001\"}]}]'></px-tree>\n```\n\n### Styling\nThe following custom properties are available for styling:\n\nCustom property | Description\n:----------------|:-------------\n`--px-tree-text-color--hover` | Text color for hovered tree nodes\n`--px-tree-background-color--hover` | Background color for hovered tree nodes\n`--px-tree-text-color--selected` | Text color for selected tree nodes\n`--px-tree-background-color--selected` | Background color for selected tree nodes\n`--px-tree-text-color--disabled` | Text color for non-selectable / disabled nodes",
       "summary": "",
       "path": "px-tree.html",
       "properties": [
@@ -963,11 +963,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 103,
+              "line": 101,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 104,
               "column": 5
             }
           },
@@ -983,11 +983,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 84,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 88,
+              "line": 86,
               "column": 5
             }
           },
@@ -1005,11 +1005,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 93,
+              "line": 91,
               "column": 4
             },
             "end": {
-              "line": 97,
+              "line": 95,
               "column": 5
             }
           },
@@ -1027,11 +1027,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 111,
+              "line": 109,
               "column": 4
             },
             "end": {
-              "line": 114,
+              "line": 112,
               "column": 5
             }
           },
@@ -2081,11 +2081,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 117,
+              "line": 115,
               "column": 2
             },
             "end": {
-              "line": 120,
+              "line": 118,
               "column": 3
             }
           },
@@ -2102,11 +2102,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 121,
+              "line": 119,
               "column": 2
             },
             "end": {
-              "line": 159,
+              "line": 157,
               "column": 3
             }
           },
@@ -2128,11 +2128,11 @@
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 64,
+          "line": 62,
           "column": 8
         },
         "end": {
-          "line": 160,
+          "line": 158,
           "column": 1
         }
       },
@@ -2288,11 +2288,11 @@
           "description": "If set to true, branches (nodes with children) will not be selectable.\nClicking on a branch will still cause it to become active (expand), but it\nwill not be added to the selected property.",
           "sourceRange": {
             "start": {
-              "line": 103,
+              "line": 101,
               "column": 4
             },
             "end": {
-              "line": 106,
+              "line": 104,
               "column": 5
             }
           },
@@ -2304,11 +2304,11 @@
           "description": "If set to true, multiple nodes can be selected at the same time in the tree\nby using the shift key (for selecting a range) or the ctrl/cmd key (for selecting individual nodes).",
           "sourceRange": {
             "start": {
-              "line": 84,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 88,
+              "line": 86,
               "column": 5
             }
           },
@@ -2320,11 +2320,11 @@
           "description": "If set to true, multiple nodes can be activated (expanded) at the same time.\nIf set to false, expanding a node will cause other nodes to automatically collapse.",
           "sourceRange": {
             "start": {
-              "line": 93,
+              "line": 91,
               "column": 4
             },
             "end": {
-              "line": 97,
+              "line": 95,
               "column": 5
             }
           },
