@@ -1,4 +1,4 @@
-v2.1.0
+v2.1.1
 ==================
 * remove unapplicable comments from docs
 
