@@ -45,17 +45,8 @@
        * Calculates whether the specified item is present in the active path.
        */
       _isItemActive: function(active, activeMeta, item, multiActivate) {
-        if(this.multiActivate && typeof active === 'object' && Array.isArray(active)) {
-          var found = false,
-              length = activeMeta.length,
-              i;
-          for(i=0; i<length; i++) {
-            if (activeMeta[i].path.indexOf(item) > -1) {
-              found = true;
-              break;
-            }
-          }
-          return found;
+        if(this.multiActivate && Array.isArray(active)) {
+          return active.indexOf(item) > -1;
         }
         else {
           return activeMeta && activeMeta.path && activeMeta.path.indexOf(item) > -1;

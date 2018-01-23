@@ -1,3 +1,7 @@
+v2.1.2
+==================
+* fix closing of parent nodes (#7)
+
 v2.1.1
 ==================
 * remove unapplicable comments from docs

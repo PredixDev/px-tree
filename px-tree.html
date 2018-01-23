@@ -123,7 +123,7 @@ Polymer({
       this.activate(item);
     }
     if(isBranch && isActive) {
-      if(!this.multiActivate && this._assetGraph.getInfo(item).parent) {
+      if(!this.multiActivate) {
         this.activate(this._assetGraph.getInfo(item).parent);
       }
       else {
