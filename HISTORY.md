@@ -1,3 +1,7 @@
+v2.1.3
+==================
+* Fix demo for IE
+
 v2.1.2
 ==================
 * fix closing of parent nodes (#7)
