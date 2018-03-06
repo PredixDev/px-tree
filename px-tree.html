@@ -1,10 +1,10 @@
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-graph.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-selectable.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-activatable.html"/>
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-graph.html" />
+<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-selectable.html" />
+<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-activatable.html" />
 <link rel="import" href="css/px-tree-styles.html">
 <link rel="import" href="px-tree-node.html">
-<link rel="import" href="px-tree-behavior.html"/>
+<link rel="import" href="px-tree-behavior.html" />
 
 <!--
 ### Usage
@@ -33,24 +33,22 @@ Custom property | Description
   <template>
     <style include="px-tree-styles"></style>
 
+    <input class="text-input filter" id="filterTreeItems" type="text" on-keypress="_qafilterMatchedNodes" placeholder="Filter">
+    <px-icon class="filter-icon" icon="px-utl:filter"></px-icon>
+    <div class="text--right">
+      <span id="expand" class="actionable" on-tap="_activateAll">Expand All</span>
+      <span> | </span>
+      <span id="collapse" class="actionable" on-tap="_deactivateAll">Collapse All</span>
+    </div>
     <ul>
       <template is="dom-repeat" items="[[__rootItems]]">
-        <px-tree-node label="[[_getItemProp(item, keys.label)]]"
-                      items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]"
-                      item="[[item]]"
-                      keys="[[keys]]"
-                      is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
-                      is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]"
-                      active="[[active]]"
-                      active-meta="[[activeMeta]]"
-                      selected="[[selected]]"
-                      can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]"
-                      disable-branch-select="[[disableBranchSelect]]"
-                      multi-select="[[multiSelect]]"
-                      multi-activate="[[multiActivate]]"
-                      icon="[[_getItemProp(item, keys.icon)]]"
-                      children-updated="[[_childrenUpdated]]"
-                      asset-graph="[[_assetGraph]]">
+        <px-tree-node id="treeNode" label="[[_getItemProp(item, keys.label)]]" description="[[_getItemProp(item, keys.metadata)]]"
+          items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]" item="[[item]]" keys="[[keys]]" is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
+          is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]" active="[[active]]" active-meta="[[activeMeta]]"
+          selected="[[selected]]" can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]" disable-branch-select="[[disableBranchSelect]]"
+          multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]" icon="[[_getItemProp(item, keys.icon)]]" part="{{_getItemProp(item, keys.part)}}"
+          missing="{{_getItemProp(item, keys.missing)}}" mismatch="{{_getItemProp(item, keys.mismatch)}}" children-updated="[[_childrenUpdated]]"
+          asset-graph="[[_assetGraph]]">
         </px-tree-node>
       </template>
     </ul>
@@ -59,102 +57,205 @@ Custom property | Description
 </dom-module>
 
 <script>
+  Polymer({
+    is: 'px-tree',
 
-Polymer({
-  is:'px-tree',
+    behaviors: [
+      PxAppBehavior.AssetGraph,
+      PxAppBehavior.AssetSelectable,
+      PxAppBehavior.AssetActivatable,
+      PxTreeBehavior
+    ],
 
-  behaviors: [
-    PxAppBehavior.AssetGraph,
-    PxAppBehavior.AssetSelectable,
-    PxAppBehavior.AssetActivatable,
-    PxTreeBehavior
-  ],
-
-  listeners: {
-    'px-tree-node-tapped' : '_handleNodeTapped',
-    'px-app-asset-children-updated' : '_handleChildrenUpdated'
-  },
-
-  properties: {
-    /**
-     * If set to true, multiple nodes can be selected at the same time in the tree
-     * by using the shift key (for selecting a range) or the ctrl/cmd key (for selecting individual nodes).
-     */
-    multiSelect: {
-      type: Boolean,
-      value: false,
-      observer: '_toggleMultiSelect'
+    listeners: {
+      'px-tree-node-tapped': '_handleNodeTapped',
+      'px-app-asset-children-updated': '_handleChildrenUpdated'
     },
-    /**
-     * If set to true, multiple nodes can be activated (expanded) at the same time.
-     * If set to false, expanding a node will cause other nodes to automatically collapse.
-     */
-    multiActivate: {
-      type: Boolean,
-      value: false,
-      observer: '_toggleMultiActivate'
-    },
-    /**
-     * If set to true, branches (nodes with children) will not be selectable.
-     * Clicking on a branch will still cause it to become active (expand), but it
-     * will not be added to the selected property.
-     */
-    disableBranchSelect: {
-      type: Boolean,
-      value: false
-    },
-    /**
-     * Internal boolean that is flipped when children are updated in the asset
-     * graph, triggering data binding to show them in the tree.
-     */
-    _childrenUpdated: {
-      type: Boolean,
-      value: null
-    }
-  },
 
-  _handleChildrenUpdated: function(e) {
-    this._childrenUpdated = true;
-    this._childrenUpdated = false;
-  },
-  _handleNodeTapped: function(e) {
-    const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
-    if(isBranch && !isActive) {
-      this.activate(item);
-    }
-    if(isBranch && isActive) {
-      if(!this.multiActivate) {
-        this.activate(this._assetGraph.getInfo(item).parent);
+    properties: {
+      /**
+       * If set to true, multiple nodes can be selected at the same time in the tree
+       * by using the shift key (for selecting a range) or the ctrl/cmd key (for selecting individual nodes).
+       */
+      multiSelect: {
+        type: Boolean,
+        value: false,
+        observer: '_toggleMultiSelect'
+      },
+      /**
+       * If set to true, multiple nodes can be activated (expanded) at the same time.
+       * If set to false, expanding a node will cause other nodes to automatically collapse.
+       */
+      multiActivate: {
+        type: Boolean,
+        value: false,
+        observer: '_toggleMultiActivate'
+      },
+      /**
+       * If set to true, branches (nodes with children) will not be selectable.
+       * Clicking on a branch will still cause it to become active (expand), but it
+       * will not be added to the selected property.
+       */
+      disableBranchSelect: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       * Internal boolean that is flipped when children are updated in the asset
+       * graph, triggering data binding to show them in the tree.
+       */
+      _childrenUpdated: {
+        type: Boolean,
+        value: null
+      },
+      /**
+       * When filtering the tree items will store the filtered
+       * items in this array properties so that the original tree items are not overwritten when filtering.
+       */
+      _orignalItems: {
+        type: Array,
+        notify: true
       }
-      else {
-        this.deactivate(item);
+    },
+    /**
+     * When expanding all the tree items on Expand All click
+     * the method is invoked.
+     */
+    _activateAll: function (items) {
+      var self = this;
+      //var nodeItems = this.querySelectorAll('ul px-tree-node');
+      //var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      //var nodeItems = Polymer.dom(document.getElementById('treeNode').root).querySelector('ul px-tree-node');
+      var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      nodeItems.forEach(function (nodeObj, index) {
+        shift = null;
+        ctrl = null;
+        isIcon = false;
+        if (nodeObj.canOpen && !nodeObj.isActive) {
+          self.fire('px-tree-node-tapped', {
+            shift,
+            ctrl,
+            item: nodeObj.item,
+            isBranch: nodeObj.canOpen,
+            isActive: nodeObj.isActive,
+            isSelected: nodeObj.isSelected,
+            isIcon
+          });
+        }
+      });
+    },
+    /**
+     * When collapsing all the tree items on Collapse All click
+     * the method is invoked.
+     */
+    _deactivateAll: function (items) {
+      var self = this;
+      var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      nodeItems.forEach(function (nodeObj, index) {
+        shift = null;
+        ctrl = null;
+        isIcon = false;
+        if (nodeObj.canOpen && nodeObj.isActive) {
+          self.fire('px-tree-node-tapped', {
+            shift,
+            ctrl,
+            item: nodeObj.item,
+            isBranch: nodeObj.canOpen,
+            isActive: nodeObj.isActive,
+            isSelected: nodeObj.isSelected,
+            isIcon
+          });
+        }
+      });
+    },
+    /**
+     * Escaping special characters when filtering the tree items
+     */
+    _escapeStringRegExp: function (str) {
+      return new RegExp(str.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'img');
+    },
+    /**
+     * Filtering the tree items based on the search string entered in the tree input
+     */
+    _isMatchedNode: function (str, node) {
+      if (this._escapeStringRegExp(str).test(node.label) || (node.metadata && this._escapeStringRegExp(str).test(
+          node.metadata.join('##')))) {
+        return true;
       }
-    }
-    if(isBranch && this.disableBranchSelect || isIcon || !this._assetGraph.isSelectable(item)) return;
-    if(isSelected && (ctrl || shift)) {
-      this.deselect(item);
-      return;
-    }
-    if(!ctrl && !shift) {
-      this.select(null);
-    }
-    if(this.multiSelect && shift) {
-      var index1 = this._assetGraph.getInfo(item).siblings.indexOf(item),
+      return false;
+    },
+    /**
+     * Displaying the filtered the tree items based on the search string entered in the tree input
+     */
+    _qafilterMatchedNodes: function (ev) {
+      if (!this._orignalItems) {
+        this.set('_orignalItems', this.items);
+      }
+      var matchedValue = this._filterMatchedNodes(ev.target.value, this._orignalItems);
+      this.set('items', matchedValue);
+    },
+
+    _filterMatchedNodes: function (str, nodes) {
+      var self = this;
+      return nodes.reduce(function (acc, node) {
+        var matchedChidlren = node.children && node.children.length && self._filterMatchedNodes(str, node.children);
+        if (self._isMatchedNode(str, node) || matchedChidlren && matchedChidlren.length > 0) {
+          acc.push(Object.assign({}, node, {
+            children: matchedChidlren
+          }));
+        }
+        return acc;
+      }, []);
+    },
+
+    _handleChildrenUpdated: function (e) {
+      this._childrenUpdated = true;
+      this._childrenUpdated = false;
+    },
+    _handleNodeTapped: function (e) {
+      const {
+        shift,
+        ctrl,
+        item,
+        isBranch,
+        isActive,
+        isSelected,
+        isIcon
+      } = e.detail;
+      if (isBranch && !isActive) {
+        this.activate(item);
+      }
+      if (isBranch && isActive) {
+        if (!this.multiActivate) {
+          this.activate(this._assetGraph.getInfo(item).parent);
+        } else {
+          this.deactivate(item);
+        }
+      }
+      if (isBranch && this.disableBranchSelect || isIcon || !this._assetGraph.isSelectable(item)) return;
+      if (isSelected && (ctrl || shift)) {
+        this.deselect(item);
+        return;
+      }
+      if (!ctrl && !shift) {
+        this.select(null);
+      }
+      if (this.multiSelect && shift) {
+        var index1 = this._assetGraph.getInfo(item).siblings.indexOf(item),
           index2 = this._assetGraph.getInfo(item).siblings.indexOf(this._lastSelection.item);
-      if(index2 > -1 && index2 < index1) {
-        this._assetGraph.getInfo(item).siblings.slice(index2+1, index1+1).forEach(function(item) {
-          this.select(item);
-        }.bind(this));
-      }
-      else if(index2 > -1) {
-        this._assetGraph.getInfo(item).siblings.slice(index1, index2).forEach(function(item) {
-          this.select(item);
-        }.bind(this));
+        if (index2 > -1 && index2 < index1) {
+          this._assetGraph.getInfo(item).siblings.slice(index2 + 1, index1 + 1).forEach(function (item) {
+            this.select(item);
+          }.bind(this));
+        } else if (index2 > -1) {
+          this._assetGraph.getInfo(item).siblings.slice(index1, index2).forEach(function (item) {
+            this.select(item);
+          }.bind(this));
+        }
+      } else {
+        this.select(item);
       }
     }
-    else {
-      this.select(item);
-    }
-  }
-});
+  });
+
 </script>

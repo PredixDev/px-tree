@@ -8,7 +8,10 @@
  * under which the software has been supplied.
  */
 
-ul, li {
+@import "px-forms-design/_base.forms.scss";
+@import "px-actionable-design/_objects.actionable.scss";
+ul,
+li {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -16,7 +19,9 @@ ul, li {
   user-select: none;
   cursor: pointer;
 }
-.tree__leaf, .tree__branch {
+
+.tree__leaf,
+.tree__branch {
   &:hover {
     color: var(--px-tree-text-color--hover, black);
     background-color: var(--px-tree-background-color--hover, lightgray);
@@ -29,15 +34,88 @@ ul, li {
     color: var(--px-tree-text-color--disabled, gray);
   }
 }
+
 .tree__leaf {
   padding-left: 1.75rem;
 }
-.chevron, .icon {
+
+.chevron,
+.icon {
   --iron-icon-width: 1rem;
   --iron-icon-height: 1rem;
   margin-left: 0.25rem;
   margin-right: 0.25rem;
 }
+
 .collapse-content {
   padding-left: 1.5rem;
+}
+
+.description-font {
+  font-size: 12px;
+  line-height: 1rem;
+}
+
+.description {
+  padding-left: 1.7rem;
+}
+
+.filter-icon {
+  margin-left: -1.7rem;
+  opacity: .7;
+}
+
+.filter {
+  margin-bottom: 1rem;
+  width: 26%;
+  margin-left: .5rem;
+}
+
+.text--right {
+  text-align: right;
+  margin-top: -2rem;
+}
+
+.branch-icon {
+  padding-right: 0.25rem;
+}
+
+.leaf-icon {
+  padding-right: 0.25rem;
+}
+
+.tree-branch-icon {
+  display: inline-flex;
+  vertical-align: top;
+  margin-top: 0.5rem;
+}
+
+.tree-branch-label {
+  display: inline-block;
+}
+
+.leaf-branch-icon {
+  display: inline-flex;
+  margin-left: -0.8rem;
+  vertical-align: top;
+  margin-top: 0.5rem;
+}
+
+.leaf-branch-label {
+  display: inline-block;
+  padding-left: 0;
+}
+
+.non-ge {
+  color: #0EBD76;
+  width: 12px;
+  height: 12px;
+}
+
+.part-missing {
+  color: #D0021B;
+}
+
+.quantity-mismatch {
+  color: #F5A623;
 }
