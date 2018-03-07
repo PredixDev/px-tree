@@ -42,7 +42,7 @@ Custom property | Description
     </div>
     <ul>
       <template is="dom-repeat" items="[[__rootItems]]">
-        <px-tree-node id="treeNode" label="[[_getItemProp(item, keys.label)]]" description="[[_getItemProp(item, keys.metadata)]]"
+        <px-tree-node id="treeNode" label="[[_getItemProp(item, keys.label)]]" description="[[_metaDataArray(item, keys.metadata)]]"
           items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]" item="[[item]]" keys="[[keys]]" is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
           is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]" active="[[active]]" active-meta="[[activeMeta]]"
           selected="[[selected]]" can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]" disable-branch-select="[[disableBranchSelect]]"
@@ -178,8 +178,10 @@ Custom property | Description
      * Filtering the tree items based on the search string entered in the tree input
      */
     _isMatchedNode: function (str, node) {
-      if (this._escapeStringRegExp(str).test(node.label) || (node.metadata && this._escapeStringRegExp(str).test(
-          node.metadata.join('##')))) {
+      if (this._escapeStringRegExp(str).test(node.label) ||
+        (
+          node.metadata && this._escapeStringRegExp(str).test(
+            node.metadata))) {
         return true;
       }
       return false;
@@ -207,7 +209,6 @@ Custom property | Description
         return acc;
       }, []);
     },
-
     _handleChildrenUpdated: function (e) {
       this._childrenUpdated = true;
       this._childrenUpdated = false;

@@ -36,7 +36,12 @@ li {
 }
 
 .tree__leaf {
-  padding-left: 1.75rem;
+  padding-left: 2.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.tree__branch {
+  padding-bottom: 0.5rem;
 }
 
 .chevron,
@@ -54,6 +59,7 @@ li {
 .description-font {
   font-size: 12px;
   line-height: 1rem;
+  color: #909090;
 }
 
 .description {
@@ -106,16 +112,14 @@ li {
   padding-left: 0;
 }
 
-.non-ge {
-  color: #0EBD76;
-  width: 12px;
-  height: 12px;
-}
-
-.part-missing {
-  color: #D0021B;
-}
-
-.quantity-mismatch {
-  color: #F5A623;
-}
+// .non-ge {
+//   //color: #0EBD76;
+//   width: 12px;
+//   height: 12px;
+// }
+// .part-missing {
+//   //color: #D0021B;
+// }
+// .quantity-mismatch {
+//   //color: #F5A623;
+// }
