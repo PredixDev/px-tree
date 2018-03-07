@@ -123,9 +123,6 @@ Custom property | Description
      */
     _activateAll: function (items) {
       var self = this;
-      //var nodeItems = this.querySelectorAll('ul px-tree-node');
-      //var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
-      //var nodeItems = Polymer.dom(document.getElementById('treeNode').root).querySelector('ul px-tree-node');
       var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
       nodeItems.forEach(function (nodeObj, index) {
         shift = null;

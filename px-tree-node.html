@@ -13,10 +13,11 @@
     <template is="dom-if" if="[[canOpen]]">
       <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="tree-branch-icon">
-          <px-icon id="leafPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="leafMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="leafMismatch" class="branch-icon" icon="px-nav:instance" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="leafAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternate}}"></px-icon>
+          <!-- hidden$="{{alternate}}"-->
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-nav:instance" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
         </span>
         <span class="tree-branch-label">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
@@ -46,10 +47,10 @@
     <template is="dom-if" if="[[!canOpen]]">
       <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="leaf-branch-icon">
-          <px-icon id="branchPart" class="leaf-icon" icon="px-nav:unconfirmed" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="branchMissing" class="leaf-icon" icon="px-utl:app-settings" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="branchMismatch" class="leaf-icon" icon="px-nav:instance" hidden$="{{alternate}}"></px-icon>
-          <px-icon id="branchAlternate" class="leaf-icon" icon="px-utl:flag" hidden$="{{alternate}}"></px-icon>
+          <px-icon id="leafPart" class="leaf-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="leafMissing" class="leaf-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="leafMismatch" class="leaf-icon" icon="px-nav:instance" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="leafAlternate" class="leaf-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
 
         </span>
         <span class="leaf-branch-label">
@@ -204,7 +205,7 @@
        * Whether or not Non-GE part icon used for tree comparison will be visible.
        * Passed down recursively from the parent px-tree or parent px-tree-node.
        */
-      part: {
+      nonGePart: {
         type: Boolean,
         value: true,
         notify: true
@@ -213,7 +214,7 @@
        * Whether or not part missing icon used for tree comparison will be visible.
        * Passed down recursively from the parent px-tree or parent px-tree-node.
        */
-      missing: {
+      missingParts: {
         type: Boolean,
         value: true,
         notify: true
@@ -222,7 +223,7 @@
        * Whether or not quantity mismatch icon used for tree comparison will be visible.
        * Passed down recursively from the parent px-tree or parent px-tree-node.
        */
-      mismatch: {
+      mismatchParts: {
         type: Boolean,
         value: true,
         notify: true
@@ -231,7 +232,7 @@
        * Whether or not quantity alternate parts icon used for tree comparison will be visible.
        * Passed down recursively from the parent px-tree or parent px-tree-node.
        */
-      alternate: {
+      alternateParts: {
         type: Boolean,
         value: true,
         notify: true
@@ -270,27 +271,44 @@
         return classList.join(' ');
       }
     },
-    _getLeafClass: function (part, missing, mismatch, alternate) {
-      if (!(part === undefined || missing === undefined || mismatch === undefined || alternate === undefined)) {
+    _getLeafClass: function (isActive, isSelected, item, assetGraph) {
+      if (!(isActive === undefined || isSelected === undefined || item === undefined || assetGraph === undefined)) {
         var classList = [];
-        if (part) {
-          classList.push('part');
+        if (isActive) {
+          classList.push('leafPart');
         }
-        if (missing) {
-          classList.push('missing');
+        if (isSelected) {
+          classList.push('leafMissing');
         }
         if (mismatch) {
-          classList.push('mismatch');
+          classList.push('leafMismatch');
         }
         if (alternate) {
-          classList.push('alternate');
+          classList.push('leafAlternate');
         }
-        // if (!assetGraph.isSelectable(item)) {
-        //   classList.push('disabled');
-        // }
         return classList.join(' ');
       }
     },
+    // _getBranchClass: function (part, missing, mismatch, alternate) {
+    //   if (!(part === undefined || missing === undefined || mismatch === undefined ||
+    //       alternate ===
+    //       undefined)) {
+    //     var classList = [];
+    //     if (part) {
+    //       classList.push('branchPart');
+    //     }
+    //     if (missing) {
+    //       classList.push('branchMissing');
+    //     }
+    //     if (mismatch) {
+    //       classList.push('branchMismatch');
+    //     }
+    //     if (alternate) {
+    //       classList.push('branchAlternate');
+    //     }
+    //     return classList.join(' ');
+    //   }
+    // },
     /**
      * Event handler for tap events. Determines whether a node should be
      * selected, toggled, or both; and fires events to the tree accordingly.
