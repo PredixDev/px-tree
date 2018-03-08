@@ -123,7 +123,12 @@ Custom property | Description
      */
     _activateAll: function (items) {
       var self = this;
-      var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      var componentDom = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      if (componentDom.length > 1) {
+        var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      } else {
+        var nodeItems = this.querySelectorAll('ul px-tree-node');
+      }
       nodeItems.forEach(function (nodeObj, index) {
         shift = null;
         ctrl = null;
@@ -158,6 +163,7 @@ Custom property | Description
           }
         });
       });
+      //}
     },
     /**
      * When collapsing all the tree items on Collapse All click
@@ -165,7 +171,12 @@ Custom property | Description
      */
     _deactivateAll: function (items) {
       var self = this;
-      var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      var componentDom = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      if (componentDom.length > 1) {
+        var nodeItems = Polymer.dom(this.root).querySelectorAll('ul px-tree-node');
+      } else {
+        var nodeItems = this.querySelectorAll('ul px-tree-node');
+      }
       nodeItems.forEach(function (nodeObj, index) {
         shift = null;
         ctrl = null;
@@ -200,6 +211,7 @@ Custom property | Description
           }
         });
       });
+      //}
     },
     /**
      * Escaping special characters when filtering the tree items
