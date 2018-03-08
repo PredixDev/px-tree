@@ -139,6 +139,24 @@ Custom property | Description
             isIcon
           });
         }
+        var nodeChildItems = Polymer.dom(nodeObj.root.getElementById('collapse')).querySelectorAll(
+          'px-tree-node');
+        nodeChildItems.forEach(function (nodeChildObj, index) {
+          shift = null;
+          ctrl = null;
+          isIcon = false;
+          if (nodeChildObj.canOpen && !nodeChildObj.isActive) {
+            self.fire('px-tree-node-tapped', {
+              shift,
+              ctrl,
+              item: nodeChildObj.item,
+              isBranch: nodeChildObj.canOpen,
+              isActive: nodeChildObj.isActive,
+              isSelected: nodeChildObj.isSelected,
+              isIcon
+            });
+          }
+        });
       });
     },
     /**
@@ -163,6 +181,24 @@ Custom property | Description
             isIcon
           });
         }
+        var nodeChildItems = Polymer.dom(nodeObj.root.getElementById('collapse')).querySelectorAll(
+          'px-tree-node');
+        nodeChildItems.forEach(function (nodeChildObj, index) {
+          shift = null;
+          ctrl = null;
+          isIcon = false;
+          if (nodeChildObj.canOpen && !nodeChildObj.isActive) {
+            self.fire('px-tree-node-tapped', {
+              shift,
+              ctrl,
+              item: nodeChildObj.item,
+              isBranch: nodeChildObj.canOpen,
+              isActive: nodeChildObj.isActive,
+              isSelected: nodeChildObj.isSelected,
+              isIcon
+            });
+          }
+        });
       });
     },
     /**
@@ -197,7 +233,8 @@ Custom property | Description
     _filterMatchedNodes: function (str, nodes) {
       var self = this;
       return nodes.reduce(function (acc, node) {
-        var matchedChidlren = node.children && node.children.length && self._filterMatchedNodes(str, node.children);
+        var matchedChidlren = node.children && node.children.length && self._filterMatchedNodes(str, node
+          .children);
         if (self._isMatchedNode(str, node) || matchedChidlren && matchedChidlren.length > 0) {
           acc.push(Object.assign({}, node, {
             children: matchedChidlren

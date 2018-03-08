@@ -271,44 +271,6 @@
         return classList.join(' ');
       }
     },
-    _getLeafClass: function (isActive, isSelected, item, assetGraph) {
-      if (!(isActive === undefined || isSelected === undefined || item === undefined || assetGraph === undefined)) {
-        var classList = [];
-        if (isActive) {
-          classList.push('leafPart');
-        }
-        if (isSelected) {
-          classList.push('leafMissing');
-        }
-        if (mismatch) {
-          classList.push('leafMismatch');
-        }
-        if (alternate) {
-          classList.push('leafAlternate');
-        }
-        return classList.join(' ');
-      }
-    },
-    // _getBranchClass: function (part, missing, mismatch, alternate) {
-    //   if (!(part === undefined || missing === undefined || mismatch === undefined ||
-    //       alternate ===
-    //       undefined)) {
-    //     var classList = [];
-    //     if (part) {
-    //       classList.push('branchPart');
-    //     }
-    //     if (missing) {
-    //       classList.push('branchMissing');
-    //     }
-    //     if (mismatch) {
-    //       classList.push('branchMismatch');
-    //     }
-    //     if (alternate) {
-    //       classList.push('branchAlternate');
-    //     }
-    //     return classList.join(' ');
-    //   }
-    // },
     /**
      * Event handler for tap events. Determines whether a node should be
      * selected, toggled, or both; and fires events to the tree accordingly.
