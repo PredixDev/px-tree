@@ -239,7 +239,6 @@ Custom property | Description
       var matchedValue = this._filterMatchedNodes(ev.target.value, this._orignalItems);
       this.set('items', matchedValue);
     },
-
     _filterMatchedNodes: function (str, nodes) {
       var self = this;
       return nodes.reduce(function (acc, node) {

@@ -13,7 +13,6 @@
     <template is="dom-if" if="[[canOpen]]">
       <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="tree-branch-icon">
-          <!-- hidden$="{{alternate}}"-->
           <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
           <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
           <px-icon id="branchMismatch" class="branch-icon" icon="px-nav:instance" hidden$="{{mismatchParts}}"></px-icon>
@@ -128,7 +127,10 @@
           return [];
         }
       },
-
+      /**
+       * The array of metadata items associated with this px-tree-node.
+       * Pulled from the `item` object for this node.
+       */
       metadata: {
         type: Array,
         value: function () {
