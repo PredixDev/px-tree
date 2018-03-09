@@ -24,8 +24,10 @@
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
-          <px-icon id="branchItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
-          <px-tooltip for="branchItem" tooltip-message="View details" orientation="right"></px-tooltip>
+          <span id="linkIcon" hidden$="{{linkIcon}}">
+            <px-icon id="branchItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
+            <px-tooltip for="branchItem" tooltip-message="View details" orientation="right"></px-tooltip>
+          </span>
           <span class="description description-font" style="display: block;" hidden$="[[hideDescription]]">[[description]]</span>
         </span>
       </li>
@@ -57,9 +59,11 @@
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
-          <px-icon id="leafItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
-          <px-tooltip for="leafItem" tooltip-message="View details" orientation="right">
-          </px-tooltip>
+          <span id="linkIcon" hidden$="{{linkIcon}}">
+            <px-icon id="leafItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
+            <px-tooltip for="leafItem" tooltip-message="View details" orientation="right">
+            </px-tooltip>
+          </span>
           <span class="description-font" style="display: block;" hidden$="[[hideDescription]]">[[description]]</span>
         </span>
       </li>
@@ -235,6 +239,15 @@
        * Passed down recursively from the parent px-tree or parent px-tree-node.
        */
       alternateParts: {
+        type: Boolean,
+        value: true,
+        notify: true
+      },
+      /**
+       * Whether or not link icon used for linking the tree items will be visible.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      linkIcon: {
         type: Boolean,
         value: true,
         notify: true
