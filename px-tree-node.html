@@ -13,10 +13,10 @@
     <template is="dom-if" if="[[canOpen]]">
       <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="tree-branch-icon">
-          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
-          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
-          <px-icon id="branchMismatch" class="branch-icon" icon="px-nav:instance" hidden$="{{mismatchParts}}"></px-icon>
-          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{!nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{!missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{!mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{!alternateParts}}"></px-icon>
         </span>
         <span class="tree-branch-label">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
@@ -36,8 +36,9 @@
               item="[[subitem]]" keys="[[keys]]" active="[[active]]" active-meta="[[activeMeta]]" selected="[[selected]]" is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
               is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]" can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]"
               disable-branch-select="[[disableBranchSelect]]" multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]"
-              icon="[[_getItemProp(subitem, keys.icon)]]" part="{{_getItemProp(subitem, keys.part)}}" missing="{{_getItemProp(subitem, keys.missing)}}"
-              mismatch="{{_getItemProp(subitem, keys.mismatch)}}" asset-graph="[[assetGraph]]" children-updated="[[childrenUpdated]]">
+              icon="[[_getItemProp(subitem, keys.icon)]]" non-ge-part="{{_getItemProp(subitem, keys.nonGePart)}}" missing-parts="{{_getItemProp(subitem, keys.missingParts)}}"
+              mismatch-parts="{{_getItemProp(subitem, keys.mismatchParts)}}" alternate-parts="{{_getItemProp(subitem, keys.alternateParts)}}"
+              asset-graph="[[assetGraph]]" children-updated="[[childrenUpdated]]">
             </px-tree-node>
           </template>
         </div>
@@ -46,10 +47,10 @@
     <template is="dom-if" if="[[!canOpen]]">
       <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="leaf-branch-icon">
-          <px-icon id="leafPart" class="leaf-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
-          <px-icon id="leafMissing" class="leaf-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
-          <px-icon id="leafMismatch" class="leaf-icon" icon="px-nav:instance" hidden$="{{mismatchParts}}"></px-icon>
-          <px-icon id="leafAlternate" class="leaf-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{!nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{!missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{!mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{!alternateParts}}"></px-icon>
 
         </span>
         <span class="leaf-branch-label">
@@ -209,7 +210,7 @@
        */
       nonGePart: {
         type: Boolean,
-        value: true,
+        value: false,
         notify: true
       },
       /**
@@ -218,7 +219,7 @@
        */
       missingParts: {
         type: Boolean,
-        value: true,
+        value: false,
         notify: true
       },
       /**
@@ -227,7 +228,7 @@
        */
       mismatchParts: {
         type: Boolean,
-        value: true,
+        value: false,
         notify: true
       },
       /**
@@ -236,7 +237,7 @@
        */
       alternateParts: {
         type: Boolean,
-        value: true,
+        value: false,
         notify: true
       }
     },

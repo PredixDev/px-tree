@@ -46,9 +46,9 @@ Custom property | Description
           items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]" item="[[item]]" keys="[[keys]]" is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
           is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]" active="[[active]]" active-meta="[[activeMeta]]"
           selected="[[selected]]" can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]" disable-branch-select="[[disableBranchSelect]]"
-          multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]" icon="[[_getItemProp(item, keys.icon)]]" part="{{_getItemProp(item, keys.part)}}"
-          missing="{{_getItemProp(item, keys.missing)}}" mismatch="{{_getItemProp(item, keys.mismatch)}}" children-updated="[[_childrenUpdated]]"
-          asset-graph="[[_assetGraph]]">
+          multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]" icon="[[_getItemProp(item, keys.icon)]]" non-ge-part="{{_getItemProp(item, keys.nonGePart)}}"
+          missing-parts="{{_getItemProp(item, keys.missingParts)}}" mismatch-parts="{{_getItemProp(item, keys.mismatchParts)}}"
+          alternate-parts="{{_getItemProp(item, keys.alternateParts)}}" children-updated="[[_childrenUpdated]]" asset-graph="[[_assetGraph]]">
         </px-tree-node>
       </template>
     </ul>
