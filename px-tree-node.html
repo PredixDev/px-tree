@@ -13,10 +13,10 @@
     <template is="dom-if" if="[[canOpen]]">
       <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="tree-branch-icon">
-          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{!nonGePart}}"></px-icon>
-          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{!missingParts}}"></px-icon>
-          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{!mismatchParts}}"></px-icon>
-          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{!alternateParts}}"></px-icon>
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
         </span>
         <span class="tree-branch-label">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
@@ -47,10 +47,10 @@
     <template is="dom-if" if="[[!canOpen]]">
       <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
         <span class="leaf-branch-icon">
-          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{!nonGePart}}"></px-icon>
-          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{!missingParts}}"></px-icon>
-          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{!mismatchParts}}"></px-icon>
-          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{!alternateParts}}"></px-icon>
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
 
         </span>
         <span class="leaf-branch-label">
@@ -210,8 +210,9 @@
        */
       nonGePart: {
         type: Boolean,
-        value: false,
-        notify: true
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
       },
       /**
        * Whether or not part missing icon used for tree comparison will be visible.
@@ -219,8 +220,9 @@
        */
       missingParts: {
         type: Boolean,
-        value: false,
-        notify: true
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
       },
       /**
        * Whether or not quantity mismatch icon used for tree comparison will be visible.
@@ -228,8 +230,9 @@
        */
       mismatchParts: {
         type: Boolean,
-        value: false,
-        notify: true
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
       },
       /**
        * Whether or not quantity alternate parts icon used for tree comparison will be visible.
@@ -237,8 +240,9 @@
        */
       alternateParts: {
         type: Boolean,
-        value: false,
-        notify: true
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
       }
     },
     /**
@@ -296,6 +300,16 @@
       }, {
         cancelable: true
       });
+    },
+
+    _hidePartsIcon: function (data) {
+      if (data === undefined) {
+        this.nonGePart = true;
+        this.missingParts = true;
+        this.mismatchParts = true;
+        this.alternateParts = true;
+      }
+
     }
   });
 
