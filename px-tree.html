@@ -33,7 +33,7 @@ Custom property | Description
   <template>
     <style include="px-tree-styles"></style>
 
-    <input class="text-input filter" id="filterTreeItems" type="text" on-keypress="_qafilterMatchedNodes" placeholder="Filter">
+    <input class="text-input filter" id="filterTreeItems" type="text" on-keydown="_qafilterMatchedNodes" placeholder="Filter">
     <px-icon class="filter-icon" icon="px-utl:filter"></px-icon>
     <div class="text--right">
       <span id="expand" class="actionable" on-tap="_activateAll">Expand All</span>
@@ -221,7 +221,8 @@ Custom property | Description
      * Filtering the tree items based on the search string entered in the tree input
      */
     _isMatchedNode: function (str, node) {
-      if (this._escapeStringRegExp(str).test(node.label) || this._escapeStringRegExp(str).test(node.name) ||
+      //node.label doesn't seem to exist and was throwing false positive match
+      if (this._escapeStringRegExp(str).test(node.name) ||
         (
           node.metadata && this._escapeStringRegExp(str).test(
             node.metadata))) {
@@ -236,8 +237,22 @@ Custom property | Description
       if (!this._orignalItems) {
         this.set('_orignalItems', this.items);
       }
-      var matchedValue = this._filterMatchedNodes(ev.target.value, this._orignalItems);
-      this.set('items', matchedValue);
+
+      var that = this;
+
+      //need a tiny amount of time to digest they key entered
+      setTimeout(function () {
+        var matchedValue = that._filterMatchedNodes(ev.target.value, that._orignalItems);
+        that.set('items', matchedValue);
+
+      }, 100);
+
+      //need a tiny amount of time to expand all after filter complete
+      setTimeout(function () {
+        that._activateAll()
+      }, 100);
+
+
     },
     _filterMatchedNodes: function (str, nodes) {
       var self = this;
