@@ -238,18 +238,16 @@ Custom property | Description
         this.set('_orignalItems', this.items);
       }
 
-      var that = this;
-
       //need a tiny amount of time to digest they key entered
-      setTimeout(function () {
-        var matchedValue = that._filterMatchedNodes(ev.target.value, that._orignalItems);
-        that.set('items', matchedValue);
+      setTimeout(() => {
+        var matchedValue = this.._filterMatchedNodes(ev.target.value, this._orignalItems);
+        this.set('items', matchedValue);
 
       }, 100);
 
       //need a tiny amount of time to expand all after filter complete
-      setTimeout(function () {
-        that._activateAll()
+      setTimeout(() => {
+        this._activateAll()
       }, 100);
 
 
