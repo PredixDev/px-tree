@@ -1,208 +1,316 @@
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-icon-set/px-icon-set.html"/>
-<link rel="import" href="../px-icon-set/px-icon.html"/>
-<link rel="import" href="../iron-collapse/iron-collapse.html"/>
-<link rel="import" href="px-tree-behavior.html"/>
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-icon-set/px-icon-set.html" />
+<link rel="import" href="../px-icon-set/px-icon.html" />
+<link rel="import" href="../iron-collapse/iron-collapse.html" />
+<link rel="import" href="../px-tooltip/px-tooltip.html" />
+<link rel="import" href="px-tree-behavior.html" />
 <link rel="import" href="css/px-tree-styles.html">
 
 <dom-module id="px-tree-node">
   <template>
     <style include="px-tree-styles"></style>
 
-      <template is="dom-if" if="[[canOpen]]">
-        <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
+    <template is="dom-if" if="[[canOpen]]">
+      <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
+        <span class="tree-branch-icon">
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
+        </span>
+        <span class="tree-branch-label">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
-        </li>
-        <iron-collapse id="collapse" opened$="[[isActive]]">
-          <div class="collapse-content">
-            <template is="dom-repeat" items="[[items]]" as="subitem">
-              <px-tree-node label="[[_getItemProp(subitem, keys.label)]]"
-                            items="[[_getChildren(subitem, assetGraph, childrenUpdated)]]"
-                            item="[[subitem]]"
-                            keys="[[keys]]"
-                            active="[[active]]"
-                            active-meta="[[activeMeta]]"
-                            selected="[[selected]]"
-                            is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
-                            is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
-                            can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]"
-                            disable-branch-select="[[disableBranchSelect]]"
-                            multi-select="[[multiSelect]]"
-                            multi-activate="[[multiActivate]]"
-                            icon="[[_getItemProp(subitem, keys.icon)]]"
-                            asset-graph="[[assetGraph]]"
-                            children-updated="[[childrenUpdated]]">
-              </px-tree-node>
-            </template>
-          </div>
-        </iron-collapse>
-      </template>
-      <template is="dom-if" if="[[!canOpen]]">
-        <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
+          <px-icon id="branchItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
+          <px-tooltip for="branchItem" tooltip-message="View details" orientation="right"></px-tooltip>
+          <span class="description description-font" style="display: block;" hidden$="[[hideDescription]]">[[description]]</span>
+        </span>
+      </li>
+      <iron-collapse id="collapse" opened$="[[isActive]]">
+        <div class="collapse-content">
+          <template is="dom-repeat" items="[[items]]" as="subitem">
+            <px-tree-node label="[[_getItemProp(subitem, keys.label)]]" description="[[_metaDataArray(subitem, keys.metadata)]]" items="[[_getChildren(subitem, assetGraph, childrenUpdated)]]"
+              item="[[subitem]]" keys="[[keys]]" active="[[active]]" active-meta="[[activeMeta]]" selected="[[selected]]" is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
+              is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]" can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]"
+              disable-branch-select="[[disableBranchSelect]]" multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]"
+              icon="[[_getItemProp(subitem, keys.icon)]]" non-ge-part="{{_getItemProp(subitem, keys.nonGePart)}}" missing-parts="{{_getItemProp(subitem, keys.missingParts)}}"
+              mismatch-parts="{{_getItemProp(subitem, keys.mismatchParts)}}" alternate-parts="{{_getItemProp(subitem, keys.alternateParts)}}"
+              asset-graph="[[assetGraph]]" children-updated="[[childrenUpdated]]">
+            </px-tree-node>
+          </template>
+        </div>
+      </iron-collapse>
+    </template>
+    <template is="dom-if" if="[[!canOpen]]">
+      <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
+        <span class="leaf-branch-icon">
+          <px-icon id="branchPart" class="branch-icon" icon="px-nav:unconfirmed" hidden$="{{nonGePart}}"></px-icon>
+          <px-icon id="branchMissing" class="branch-icon" icon="px-utl:app-settings" hidden$="{{missingParts}}"></px-icon>
+          <px-icon id="branchMismatch" class="branch-icon" icon="px-utl:failure" hidden$="{{mismatchParts}}"></px-icon>
+          <px-icon id="branchAlternate" class="branch-icon" icon="px-utl:flag" hidden$="{{alternateParts}}"></px-icon>
+
+        </span>
+        <span class="leaf-branch-label">
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
-        </li>
-      </template>
+          <px-icon id="leafItem" class="icon link-icon" icon="px-nav:new-window" on-tap="_action"></px-icon>
+          <px-tooltip for="leafItem" tooltip-message="View details" orientation="right">
+          </px-tooltip>
+          <span class="description-font" style="display: block;" hidden$="[[hideDescription]]">[[description]]</span>
+        </span>
+      </li>
+
+    </template>
 
   </template>
 </dom-module>
 
 <script>
+  Polymer({
+    is: 'px-tree-node',
 
-Polymer({
-  is:'px-tree-node',
+    behaviors: [PxTreeBehavior],
 
-  behaviors: [ PxTreeBehavior ],
-
-  listeners: {
-    'tap' : '_handleTap'
-  },
-
-  properties: {
-
-    /**
-     * Label to display in the body of the node.
-     * Pulled from the `item` object for this node.
-     */
-    label: {
-      type: String,
-      value: ''
+    listeners: {
+      'tap': '_handleTap'
     },
 
-    /**
-     * Whether or not the node can be expanded to display children.
-     * Calculated from the `item` object for this node.
-     */
-    canOpen: {
-      type: Boolean,
-      value: false
-    },
+    properties: {
 
-    /**
-     * An object reference for the item associated with the node.
-     * Passed down recursively from the parent px-tree or parent px-tree-node.
-     */
-    item: {
-      type: Object,
-      value: function() { return {}; }
-    },
+      /**
+       * Label to display in the body of the node.
+       * Pulled from the `item` object for this node.
+       */
+      label: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Description to display in the body of the node.
+       * Pulled from the `item` object for this node.
+       */
+      description: {
+        type: String,
+        value: ''
+      },
+      /**
+       * Whether or not the node can be expanded to display children.
+       * Calculated from the `item` object for this node.
+       */
+      canOpen: {
+        type: Boolean,
+        value: false
+      },
 
-    /**
-     * The array of child items associated with this px-tree-node.
-     * Pulled from the `item` object for this node.
-     */
-    items: {
-      type: Array,
-      value: function() { return []; }
-    },
+      /**
+       * An object reference for the item associated with the node.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      item: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      },
 
-    /**
-     * Whether or not the node is currently expanded (activated).
-     * Calculated from the activated logic of the overall tree.
-     */
-    isActive: {
-      type: Boolean,
-      value: false
-    },
+      /**
+       * The array of child items associated with this px-tree-node.
+       * Pulled from the `item` object for this node.
+       */
+      items: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      },
+      /**
+       * The array of metadata items associated with this px-tree-node.
+       * Pulled from the `item` object for this node.
+       */
+      metadata: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      },
 
-    /**
-     * Whether or not the node is currently selected.
-     * Calculated from the selected logic of the overall tree.
-     */
-    isSelected: {
-      type: Boolean,
-      value: false
-    },
+      /**
+       * Whether or not the node is currently expanded (activated).
+       * Calculated from the activated logic of the overall tree.
+       */
+      isActive: {
+        type: Boolean,
+        value: false
+      },
 
-    /**
-     * Changes the item properties (keys) that will be used
-     * internally to find each item's unique id, label, children list, and icon.
-     * Passed down recursively from the parent px-tree or parent px-tree-node.
-     */
-    keys: {
-      type: Object,
-      value: function() { return {}; }
-    },
+      /**
+       * Whether or not the node is currently selected.
+       * Calculated from the selected logic of the overall tree.
+       */
+      isSelected: {
+        type: Boolean,
+        value: false
+      },
 
-    /**
-     * Whether or not multiple nodes can be selected at a time.
-     * Passed down recursively from the parent px-tree or parent px-tree-node.
-     */
-    multiSelect: {
-      type: Boolean,
-      value: false
-    },
+      /**
+       * Changes the item properties (keys) that will be used
+       * internally to find each item's unique id, label, children list, and icon.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      keys: {
+        type: Object,
+        value: function () {
+          return {};
+        }
+      },
 
-    /**
-     * Whether or not multiple nodes can be expanded (activated) at a time.
-     * Passed down recursively from the parent px-tree or parent px-tree-node.
-     */
-    multiActivate: {
-      type: Boolean,
-      value: false
-    },
+      /**
+       * Whether or not multiple nodes can be selected at a time.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      multiSelect: {
+        type: Boolean,
+        value: false
+      },
 
-    /**
-     * The icon to display next to this particular node in the tree.
-     * Scraped from the `item` object for this node.
-     */
-    icon: {
-      type: String,
-      value: ''
-    },
+      /**
+       * Whether or not multiple nodes can be expanded (activated) at a time.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      multiActivate: {
+        type: Boolean,
+        value: false
+      },
 
-    /**
-     * Internal boolean that is flipped when children are updated in the asset
-     * graph, triggering data binding to show them in the tree.
-     */
-    childrenUpdated: {
-      type: Boolean,
-      value: null
-    }
-  },
-  /**
-   * Calculates whether to display the chevron for an expanded node
-   * or a collapsed node given the current active path.
-   */
-  _getIcon: function(isActive) {
-    return isActive ? "px-utl:chevron" : "px-utl:chevron-right";
-  },
-  /**
-   * Determines which class (active/selected/both) should be present on the node.
-   */
-  _getClass: function(isActive, isSelected, item, assetGraph) {
-    if (! (isActive === undefined || isSelected === undefined || item === undefined || assetGraph === undefined)) {
-      var classList = [];
-      if(isActive) {
-        classList.push('active');
+      /**
+       * The icon to display next to this particular node in the tree.
+       * Scraped from the `item` object for this node.
+       */
+      icon: {
+        type: String,
+        value: ''
+      },
+
+      /**
+       * Internal boolean that is flipped when children are updated in the asset
+       * graph, triggering data binding to show them in the tree.
+       */
+      childrenUpdated: {
+        type: Boolean,
+        value: null
+      },
+      /**
+       * Whether or not Non-GE part icon used for tree comparison will be visible.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      nonGePart: {
+        type: Boolean,
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
+      },
+      /**
+       * Whether or not part missing icon used for tree comparison will be visible.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      missingParts: {
+        type: Boolean,
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
+      },
+      /**
+       * Whether or not quantity mismatch icon used for tree comparison will be visible.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      mismatchParts: {
+        type: Boolean,
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
+      },
+      /**
+       * Whether or not quantity alternate parts icon used for tree comparison will be visible.
+       * Passed down recursively from the parent px-tree or parent px-tree-node.
+       */
+      alternateParts: {
+        type: Boolean,
+        value: true,
+        notify: true,
+        observer: '_hidePartsIcon'
       }
-      if(isSelected) {
-        classList.push('selected');
+    },
+    /**
+     * Fired when the tree link icon is tapped by user
+     *
+     * @event px-tree-link-tapped
+     */
+    _action: function (e) {
+      this.fire('px-tree-link-tapped');
+    },
+    /**
+     * Calculates whether to display the chevron for an expanded node
+     * or a collapsed node given the current active path.
+     */
+    _getIcon: function (isActive) {
+      return isActive ? "px-utl:chevron" : "px-utl:chevron-right";
+    },
+    /**
+     * Determines which class (active/selected/both) should be present on the node.
+     */
+    _getClass: function (isActive, isSelected, item, assetGraph) {
+      if (!(isActive === undefined || isSelected === undefined || item === undefined || assetGraph === undefined)) {
+        var classList = [];
+        if (isActive) {
+          classList.push('active');
+        }
+        if (isSelected) {
+          classList.push('selected');
+        }
+        if (!assetGraph.isSelectable(item)) {
+          classList.push('disabled');
+        }
+        return classList.join(' ');
       }
-      if(!assetGraph.isSelectable(item)) {
-        classList.push('disabled');
-      }
-      return classList.join(' ');
-    }
-  },
-  /**
-   * Event handler for tap events. Determines whether a node should be
-   * selected, toggled, or both; and fires events to the tree accordingly.
-   */
-  _handleTap: function(evt) {
-    evt.stopPropagation();
-    var path = Polymer.dom(evt).path,
+    },
+    /**
+     * Event handler for tap events. Determines whether a node should be
+     * selected, toggled, or both; and fires events to the tree accordingly.
+     */
+    _handleTap: function (evt) {
+      evt.stopPropagation();
+      var path = Polymer.dom(evt).path,
         shift = Polymer.dom(evt).event.detail.sourceEvent.shiftKey,
         ctrl = Polymer.dom(evt).event.detail.sourceEvent.ctrlKey || Polymer.dom(evt).event.detail.sourceEvent.metaKey,
         isIcon = path[0].nodeName === 'PX-ICON';
 
-    this.fire('px-tree-node-tapped', {shift, ctrl, item:this.item, isBranch: this.canOpen, isActive:this.isActive, isSelected:this.isSelected, isIcon}, {cancelable:true});
-  }
-});
+      this.fire('px-tree-node-tapped', {
+        shift,
+        ctrl,
+        item: this.item,
+        isBranch: this.canOpen,
+        isActive: this.isActive,
+        isSelected: this.isSelected,
+        isIcon
+      }, {
+        cancelable: true
+      });
+    },
+
+    _hidePartsIcon: function (data) {
+      if (data === undefined) {
+        this.nonGePart = true;
+        this.missingParts = true;
+        this.mismatchParts = true;
+        this.alternateParts = true;
+      }
+
+    }
+  });
+
 </script>

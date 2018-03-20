@@ -1,5 +1,5 @@
 <script>
-  (function() {
+  (function () {
     'use strict';
 
     window.PxTreeBehavior = (window.PxTreeBehavior || {});
@@ -22,14 +22,14 @@
       /**
        * Determines if an item has children nodes from the asset graph.
        */
-      _hasChildren: function(item, assetGraph) {
+      _hasChildren: function (item, assetGraph) {
         if (!assetGraph) return;
         return assetGraph.hasChildren(item);
       },
       /**
        * Fetches the item's child nodes from the asset graph.
        */
-      _getChildren: function(item, assetGraph) {
+      _getChildren: function (item, assetGraph) {
         if (!assetGraph) return;
         return assetGraph.getChildren(item);
       },
@@ -42,28 +42,41 @@
         return item[key];
       },
       /**
+       * Fetches an item's metadata property at the configured key. Used to dynamically
+       * fetch the item's label, icon, children, etc. based on the configured
+       * `keys` for the app. This property will display all the metadata information with a pipe.
+       */
+      _metaDataArray(item, key) {
+        if (item.metadata) {
+          var localMetaData = item.metadata.toString();
+          localMetaData = localMetaData.split(",").join(" | ");
+          item.metadata = localMetaData;
+          return item[key];
+        }
+      },
+
+      /**
        * Calculates whether the specified item is present in the active path.
        */
-      _isItemActive: function(active, activeMeta, item, multiActivate) {
-        if(this.multiActivate && Array.isArray(active)) {
+      _isItemActive: function (active, activeMeta, item, multiActivate) {
+        if (this.multiActivate && Array.isArray(active)) {
           return active.indexOf(item) > -1;
-        }
-        else {
+        } else {
           return activeMeta && activeMeta.path && activeMeta.path.indexOf(item) > -1;
         }
       },
       /**
        * Determines whether the specified item is currently selected.
        */
-      _isItemSelected: function(selected, item, multiSelect) {
-        if(this.multiSelect && typeof selected === 'object' && Array.isArray(selected)) {
+      _isItemSelected: function (selected, item, multiSelect) {
+        if (this.multiSelect && typeof selected === 'object' && Array.isArray(selected)) {
           return selected.indexOf(item) > -1;
-        }
-        else {
+        } else {
           return selected === item;
         }
       }
     };
 
   })();
+
 </script>
