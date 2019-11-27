@@ -1,4 +1,4 @@
-<!--
+/*
 Copyright (c) 2018, General Electric
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
-
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-graph.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-selectable.html"/>
-<link rel="import" href="../px-app-helpers/px-app-asset/px-app-asset-behavior-activatable.html"/>
-<link rel="import" href="css/px-tree-styles.html">
-<link rel="import" href="px-tree-node.html">
-<link rel="import" href="px-tree-behavior.html"/>
-
-<!--
+*/
+/**
 ### Usage
 ```
   <px-tree items='[{"label":"Label","id":"label001","icon":"px-utl:confirmed","children":[{"label":"Child","id":"child001"}]}]'></px-tree>
@@ -43,40 +34,35 @@ Custom property | Description
 @blurb Generic tree component
 @homepage index.html
 @demo index.html
--->
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+import '@polymer/polymer/polymer-legacy.js';
 
-<dom-module id="px-tree">
-  <template>
+import 'px-app-helpers/px-app-asset/px-app-asset-behavior-graph.js';
+import 'px-app-helpers/px-app-asset/px-app-asset-behavior-selectable.js';
+import 'px-app-helpers/px-app-asset/px-app-asset-behavior-activatable.js';
+import './css/px-tree-styles.js';
+import './px-tree-node.js';
+import './px-tree-behavior.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+
+Polymer({
+  _template: html`
     <style include="px-tree-styles"></style>
 
     <ul>
       <template is="dom-repeat" items="[[__rootItems]]">
-        <px-tree-node label="[[_getItemProp(item, keys.label)]]"
-                      items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]"
-                      item="[[item]]"
-                      keys="[[keys]]"
-                      is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]"
-                      is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]"
-                      active="[[active]]"
-                      active-meta="[[activeMeta]]"
-                      selected="[[selected]]"
-                      can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]"
-                      disable-branch-select="[[disableBranchSelect]]"
-                      multi-select="[[multiSelect]]"
-                      multi-activate="[[multiActivate]]"
-                      icon="[[_getItemProp(item, keys.icon)]]"
-                      children-updated="[[_childrenUpdated]]"
-                      asset-graph="[[_assetGraph]]">
+        <px-tree-node label="[[_getItemProp(item, keys.label)]]" items="[[_getChildren(item, _assetGraph, _childrenUpdated)]]" item="[[item]]" keys="[[keys]]" is-active="[[_isItemActive(active, activeMeta, item, multiActivate, active.*)]]" is-selected="[[_isItemSelected(selected, item, multiSelect, selected.*)]]" active="[[active]]" active-meta="[[activeMeta]]" selected="[[selected]]" can-open="[[_hasChildren(item, _assetGraph, _childrenUpdated)]]" disable-branch-select="[[disableBranchSelect]]" multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]" icon="[[_getItemProp(item, keys.icon)]]" children-updated="[[_childrenUpdated]]" asset-graph="[[_assetGraph]]">
         </px-tree-node>
       </template>
     </ul>
+`,
 
-  </template>
-</dom-module>
-
-<script>
-
-Polymer({
   is:'px-tree',
 
   behaviors: [
@@ -133,6 +119,7 @@ Polymer({
     this._childrenUpdated = true;
     this._childrenUpdated = false;
   },
+
   _handleNodeTapped: function(e) {
     const {shift, ctrl, item, isBranch, isActive, isSelected, isIcon} = e.detail;
     if(isBranch && !isActive) {
@@ -173,4 +160,3 @@ Polymer({
     }
   }
 });
-</script>

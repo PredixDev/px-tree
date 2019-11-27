@@ -1,4 +1,4 @@
-<!--
+/*
 Copyright (c) 2018, General Electric
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,68 +12,55 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
--->
+*/
+/*
+  FIXME(polymer-modulizer): the above comments were extracted
+  from HTML and may be out of place here. Review them and
+  then delete this comment!
+*/
+import '@polymer/polymer/polymer-legacy.js';
 
-<link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-icon-set/px-icon-set.html"/>
-<link rel="import" href="../px-icon-set/px-icon.html"/>
-<link rel="import" href="../iron-collapse/iron-collapse.html"/>
-<link rel="import" href="px-tree-behavior.html"/>
-<link rel="import" href="css/px-tree-styles.html">
+import 'px-icon-set/px-icon-set.js';
+import 'px-icon-set/px-icon.js';
+import '@polymer/iron-collapse/iron-collapse.js';
+import './px-tree-behavior.js';
+import './css/px-tree-styles.js';
+import { Polymer } from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
-<dom-module id="px-tree-node">
-  <template>
+Polymer({
+  _template: html`
     <style include="px-tree-styles"></style>
 
       <template is="dom-if" if="[[canOpen]]">
-        <li class$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
+        <li class\$="tree__branch [[_getClass(isActive, isSelected, item, assetGraph)]]">
           <px-icon class="chevron" icon="[[_getIcon(isActive)]]"></px-icon>
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
         </li>
-        <iron-collapse id="collapse" opened$="[[isActive]]">
+        <iron-collapse id="collapse" opened\$="[[isActive]]">
           <div class="collapse-content">
             <template is="dom-repeat" items="[[items]]" as="subitem">
-              <px-tree-node label="[[_getItemProp(subitem, keys.label)]]"
-                            items="[[_getChildren(subitem, assetGraph, childrenUpdated)]]"
-                            item="[[subitem]]"
-                            keys="[[keys]]"
-                            active="[[active]]"
-                            active-meta="[[activeMeta]]"
-                            selected="[[selected]]"
-                            is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]"
-                            is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]"
-                            can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]"
-                            disable-branch-select="[[disableBranchSelect]]"
-                            multi-select="[[multiSelect]]"
-                            multi-activate="[[multiActivate]]"
-                            icon="[[_getItemProp(subitem, keys.icon)]]"
-                            asset-graph="[[assetGraph]]"
-                            children-updated="[[childrenUpdated]]">
+              <px-tree-node label="[[_getItemProp(subitem, keys.label)]]" items="[[_getChildren(subitem, assetGraph, childrenUpdated)]]" item="[[subitem]]" keys="[[keys]]" active="[[active]]" active-meta="[[activeMeta]]" selected="[[selected]]" is-active="[[_isItemActive(active, activeMeta, subitem, multiActivate, active.*)]]" is-selected="[[_isItemSelected(selected, subitem, multiSelect, selected.*)]]" can-open="[[_hasChildren(subitem, assetGraph, childrenUpdated)]]" disable-branch-select="[[disableBranchSelect]]" multi-select="[[multiSelect]]" multi-activate="[[multiActivate]]" icon="[[_getItemProp(subitem, keys.icon)]]" asset-graph="[[assetGraph]]" children-updated="[[childrenUpdated]]">
               </px-tree-node>
             </template>
           </div>
         </iron-collapse>
       </template>
       <template is="dom-if" if="[[!canOpen]]">
-        <li class$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
+        <li class\$="tree__leaf [[_getClass(isActive, isSelected, item, assetGraph)]]">
           <template is="dom-if" if="[[icon]]">
             <px-icon class="icon" icon="[[icon]]"></px-icon>
           </template>
           <span>[[label]]</span>
         </li>
       </template>
+`,
 
-  </template>
-</dom-module>
-
-<script>
-
-Polymer({
   is:'px-tree-node',
-
   behaviors: [ PxTreeBehavior ],
 
   listeners: {
@@ -182,6 +169,7 @@ Polymer({
       value: null
     }
   },
+
   /**
    * Calculates whether to display the chevron for an expanded node
    * or a collapsed node given the current active path.
@@ -189,6 +177,7 @@ Polymer({
   _getIcon: function(isActive) {
     return isActive ? "px-utl:chevron" : "px-utl:chevron-right";
   },
+
   /**
    * Determines which class (active/selected/both) should be present on the node.
    */
@@ -207,18 +196,18 @@ Polymer({
       return classList.join(' ');
     }
   },
+
   /**
    * Event handler for tap events. Determines whether a node should be
    * selected, toggled, or both; and fires events to the tree accordingly.
    */
   _handleTap: function(evt) {
     evt.stopPropagation();
-    var path = Polymer.dom(evt).path,
-        shift = Polymer.dom(evt).event.detail.sourceEvent.shiftKey,
-        ctrl = Polymer.dom(evt).event.detail.sourceEvent.ctrlKey || Polymer.dom(evt).event.detail.sourceEvent.metaKey,
+    var path = dom(evt).path,
+        shift = dom(evt).event.detail.sourceEvent.shiftKey,
+        ctrl = dom(evt).event.detail.sourceEvent.ctrlKey || dom(evt).event.detail.sourceEvent.metaKey,
         isIcon = path[0].nodeName === 'PX-ICON';
 
     this.fire('px-tree-node-tapped', {shift, ctrl, item:this.item, isBranch: this.canOpen, isActive:this.isActive, isSelected:this.isSelected, isIcon}, {cancelable:true});
   }
 });
-</script>

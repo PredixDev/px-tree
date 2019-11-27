@@ -23,64 +23,99 @@ limitations under the License.
 
     <!-- COMMON TEST IMPORTS -->
     <!-- Loads webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
     <!-- Load web-component-tester's browser.js test runner -->
-    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../wct-browser-legacy/browser.js"></script>
     <!-- Load Polymer -->
-    <link rel="import" href="../../polymer/polymer.html"/>
+    <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
     <!-- Retain this link for px-theme.html -->
     <!-- px-theme is needed for WCT to run without errors -->
-    <link rel="import" href="../../px-theme/px-theme-styles.html"/>
+    <script type="module" src="../../px-theme/px-theme-styles.js"></script>
     <!-- Load local components -->
-    <link rel="import" href="../px-tree.html" />
+    <script type="module" src="../px-tree.js"></script>
     <!-- Load tests -->
-    <script src="px-tree-custom-tests.js"></script>
-    <script>
-      (function (window) {
-        try {
-          new MouseEvent('test');
-          return false; // No need to polyfill
-        } catch (e) {
-          // Need to polyfill - fall through
-        }
+    <script src="./px-tree-custom-tests.js"></script>
+    <script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import 'px-theme/px-theme-styles.js';
+import '../px-tree.js';
+(function (window) {
+  try {
+    new MouseEvent('test');
+    return false; // No need to polyfill
+  } catch (e) {
+    // Need to polyfill - fall through
+  }
 
-        // Polyfills DOM4 MouseEvent
+  // Polyfills DOM4 MouseEvent
 
-        var MouseEvent = function (eventType, params) {
-          params = params || { bubbles: false, cancelable: false, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false };
-          var mouseEvent = document.createEvent('MouseEvent');
-          mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, 0, null);
+  var MouseEvent = function (eventType, params) {
+    params = params || { bubbles: false, cancelable: false, ctrlKey: false, altKey: false, shiftKey: false, metaKey: false };
+    var mouseEvent = document.createEvent('MouseEvent');
+    mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, params.ctrlKey, params.altKey, params.shiftKey, params.metaKey, 0, null);
 
-          return mouseEvent;
-        }
+    return mouseEvent;
+  }
 
-        MouseEvent.prototype = Event.prototype;
+  MouseEvent.prototype = Event.prototype;
 
-        window.MouseEvent = MouseEvent;
-      })(window);
-    </script>
-    <custom-style>
+  window.MouseEvent = MouseEvent;
+})(window);
+</script>
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
       <style include="px-theme-styles" is="custom-style"></style>
-    </custom-style>
+    </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
   </head>
 
   <body>
-    <test-fixture id="px-tree-fixture">
-      <template>
-        <px-tree items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Branch2","id":"Branch2","children":[{"label":"Leaf2.1","id":"Leaf2.1"}]},{"label":"Branch3","id":"Branch3","children":[{"label":"Leaf3.1","id":"Leaf3.1"}]},{"label":"Leaf4","id":"Leaf4","isSelectable":false}]'></px-tree>
-      </template>
-    </test-fixture>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
 
-    <test-fixture id="px-multi-tree">
+$_documentContainer.innerHTML = `<test-fixture id="px-tree-fixture">
       <template>
-        <px-tree items='[{"label":"Leaf1","id":"Leaf1"},{"label":"Leaf2","id":"Leaf2"},{"label":"Leaf3","id":"Leaf3"},{"label":"Branch4","id":"Branch4","children":[{"label":"Leaf4.1","id":"Leaf4.1"}]},{"label":"Branch5","id":"Branch5","children":[{"label":"Leaf5.1","id":"Leaf5.1"}]}]' multi-activate multi-select></px-tree>
+        <px-tree items="[{&quot;label&quot;:&quot;Leaf1&quot;,&quot;id&quot;:&quot;Leaf1&quot;},{&quot;label&quot;:&quot;Branch2&quot;,&quot;id&quot;:&quot;Branch2&quot;,&quot;children&quot;:[{&quot;label&quot;:&quot;Leaf2.1&quot;,&quot;id&quot;:&quot;Leaf2.1&quot;}]},{&quot;label&quot;:&quot;Branch3&quot;,&quot;id&quot;:&quot;Branch3&quot;,&quot;children&quot;:[{&quot;label&quot;:&quot;Leaf3.1&quot;,&quot;id&quot;:&quot;Leaf3.1&quot;}]},{&quot;label&quot;:&quot;Leaf4&quot;,&quot;id&quot;:&quot;Leaf4&quot;,&quot;isSelectable&quot;:false}]"></px-tree>
       </template>
-    </test-fixture>
+    </test-fixture>`;
 
-    <test-fixture id="px-disable-tree">
+document.body.appendChild($_documentContainer.content);
+</script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px-multi-tree">
       <template>
-        <px-tree items='[{"label":"Branch1","id":"Branch1","children":[{"label":"Leaf1.1","id":"Leaf1.1"}]}]' disable-branch-select></px-tree>
+        <px-tree items="[{&quot;label&quot;:&quot;Leaf1&quot;,&quot;id&quot;:&quot;Leaf1&quot;},{&quot;label&quot;:&quot;Leaf2&quot;,&quot;id&quot;:&quot;Leaf2&quot;},{&quot;label&quot;:&quot;Leaf3&quot;,&quot;id&quot;:&quot;Leaf3&quot;},{&quot;label&quot;:&quot;Branch4&quot;,&quot;id&quot;:&quot;Branch4&quot;,&quot;children&quot;:[{&quot;label&quot;:&quot;Leaf4.1&quot;,&quot;id&quot;:&quot;Leaf4.1&quot;}]},{&quot;label&quot;:&quot;Branch5&quot;,&quot;id&quot;:&quot;Branch5&quot;,&quot;children&quot;:[{&quot;label&quot;:&quot;Leaf5.1&quot;,&quot;id&quot;:&quot;Leaf5.1&quot;}]}]" multi-activate="" multi-select=""></px-tree>
       </template>
-    </test-fixture>
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<test-fixture id="px-disable-tree">
+      <template>
+        <px-tree items="[{&quot;label&quot;:&quot;Branch1&quot;,&quot;id&quot;:&quot;Branch1&quot;,&quot;children&quot;:[{&quot;label&quot;:&quot;Leaf1.1&quot;,&quot;id&quot;:&quot;Leaf1.1&quot;}]}]" disable-branch-select=""></px-tree>
+      </template>
+    </test-fixture>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
   </body>
 </html>
